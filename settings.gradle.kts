@@ -20,8 +20,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TmpProj"
-include(":app")
+rootProject.name = "ATmpProj"
 
+include(":app")
 include(":autogame")
 //include(":keyshot")
