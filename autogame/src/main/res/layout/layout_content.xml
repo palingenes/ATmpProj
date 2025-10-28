@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:layout_gravity="end|center_vertical"
+    tools:layout_margin="15dp">
+
+    <LinearLayout
+        android:id="@+id/root"
+        style="@style/RootLayoutStyle"
+        android:visibility="visible">
+
+        <LinearLayout
+            style="@style/LayoutStyle"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_back"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/ic_back_"
+                android:text="@string/back" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LayoutStyle"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_home"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/ic_home_"
+                android:text="@string/home" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/copy_mail"
+            style="@style/LayoutStyle"
+            android:background="@drawable/selector_button"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_mail"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                android:src="@mipmap/ic_mail" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_mail"
+                style="@style/ButtonStyle"
+                android:paddingTop="0dp"
+                android:text="  输入  \n  邮件  "
+                android:textColor="#8CF640"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/copy_pwd"
+            style="@style/LayoutStyle"
+            android:background="@drawable/selector_button"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_pwd"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                android:src="@mipmap/ic_pwd" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_pwd"
+                style="@style/ButtonStyle"
+                android:paddingTop="0dp"
+                android:text="  输入  \n  密码  "
+                android:textColor="#F6CC40"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/copy_code"
+            style="@style/LayoutStyle"
+            android:background="@drawable/selector_button"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_code"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                android:src="@mipmap/ic_code" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_code"
+                style="@style/ButtonStyle"
+                android:paddingTop="0dp"
+                android:text="输入\n验证码"
+                android:textColor="#65F4A3"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LayoutStyle"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_launcher_background"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="任务执行时间"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/task_time"
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:background="@null"
+                android:ellipsize="none"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:lines="1"
+                android:maxLines="1"
+                android:paddingTop="0dp"
+                android:singleLine="true"
+                android:text="00:00"
+                android:textColor="#000000"
+                android:textSize="21sp"
+                app:autoSizeMaxTextSize="21sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/report_task_success"
+            style="@style/LayoutStyle"
+            android:layout_width="80dp"
+            android:background="@drawable/selector_button"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                android:src="@mipmap/ic_task_success" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:paddingTop="0dp"
+                android:text="任务\n成功"
+                android:textColor="#50E98C"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/report_task_fail"
+            style="@style/LayoutStyle"
+            android:layout_width="80dp"
+            android:background="@drawable/selector_button"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                android:src="@mipmap/ic_task_fail" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:paddingTop="0dp"
+                android:text="任务\n失败"
+                android:textColor="#FD5F1C"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/task_layout"
+            style="@style/LayoutStyle"
+            android:background="@drawable/selector_button"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_task"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                android:src="@mipmap/task_pause_icon" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_task"
+                style="@style/ButtonStyle"
+                android:paddingTop="0dp"
+                android:text="  暂停 "
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LayoutStyle"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_backstage"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/ic_backstage_"
+                android:text="@string/backstage" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LayoutStyle"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_config"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/baseline_flutter_dash_24"
+                android:text="快照"
+                android:textColor="#E7E74C"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/force_stop_success"
+            style="@style/LayoutStyle"
+            android:layout_width="80dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/selector_button"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                android:src="@mipmap/ic_finish_success" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:paddingTop="0dp"
+                android:text="成功并退出"
+                android:textColor="#47EF2C"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/force_stop_fail"
+            style="@style/LayoutStyle"
+            android:layout_width="80dp"
+            android:background="@drawable/selector_button"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                android:src="@mipmap/ic_finish_fail" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:paddingTop="0dp"
+                android:text="失败并退出"
+                android:textColor="#FF5022"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LayoutStyle"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_annotation"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/ic_annotation_"
+                android:text="@string/annotation" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

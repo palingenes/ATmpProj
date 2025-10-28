@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:background="@drawable/bg_log_item"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/textViewMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="monospace"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="2dp"
+        android:singleLine="false"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewTime"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="任务{4} 去Google Play更新SAPP" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="monospace"
+        android:textColor="#006607"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewMessage"
+        app:layout_constraintStart_toEndOf="@id/textViewEmoji"
+        app:layout_constraintTop_toTopOf="@id/textViewMessage"
+        tools:text="[+11223ms]" />
+
+    <TextView
+        android:id="@+id/textViewTag"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:ellipsize="none"
+        android:fontFamily="monospace"
+        android:textColor="#1D0000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@id/textViewTime"
+        app:layout_constraintTop_toBottomOf="@id/textViewMessage"
+        tools:text="包名：com.asasd.caw.sfdsa" />
+
+    <TextView
+        android:id="@+id/textViewEmoji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewMessage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textViewMessage"
+        tools:text="🚴" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

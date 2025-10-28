@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeNotificationStateChanged|typeWindowStateChanged|typeWindowContentChanged|typeWindowsChanged|typeViewClicked"
+    android:accessibilityFeedbackType="feedbackAllMask"
+    android:accessibilityFlags="flagRetrieveInteractiveWindows|flagDefault|flagReportViewIds|flagIncludeNotImportantViews|flagRequestTouchExplorationMode|flagRequestFilterKeyEvents"
+    android:canPerformGestures="true"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/accessibility_description"
+    android:notificationTimeout="1000">
+    <!--
+      //参数介绍
+      android:description 辅助功能描述
+      android:packageNames 指定辅助功能监听的包名，不指定表示监听所有应用
+      android:accessibilityEventTypes 配置要监听的辅助事件，typeAllMask表示接收所有事件 typeNotificationStateChanged(通知变化事件)、
+                                      typeWindowStateChanged(界面变化事件)
+      android:accessibilityFlags 查找截点方式，一般配置为flagDefault默认方式
+      android:accessibilityFeedbackType 操作按钮以后给用户的反馈类型，包括声音，震动等
+      android:notificationTimeout 响应超时 发送2次事件的时间间隔,超过后事件作废
+      android:canPerformGestures 滑动事件，不添加则会导致滑动失败
+      android:canRetrieveWindowContent 是否允许提取窗口的节点信息 表明此服务是否可以读取窗口中的内容
+      -->
+</accessibility-service>

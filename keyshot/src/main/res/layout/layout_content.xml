@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/root"
+        style="@style/RootLayoutStyle"
+        android:visibility="visible">
+
+        <LinearLayout style="@style/LayoutStyle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_back"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/ic_back_"
+                android:text="@string/back" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutStyle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_home"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/ic_home_"
+                android:text="@string/home" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LayoutStyle"
+            android:id="@+id/task_layout"
+            android:background="@drawable/selector_button"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_task"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/task_pause_icon" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_task"
+                style="@style/ButtonStyle"
+                android:paddingTop="0dp"
+                android:text="暂停" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutStyle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_backstage"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/ic_backstage_"
+                android:text="@string/backstage" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutStyle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_config"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/baseline_flutter_dash_24"
+                android:text="快照"
+                android:textColor="#E7E74C"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutStyle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_force_stop"
+                style="@style/ButtonStyle"
+                android:text="结束"
+                android:textColor="#FFFFFF"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LayoutStyle"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_annotation"
+                style="@style/ButtonStyle"
+                android:drawableTop="@drawable/ic_annotation_"
+                android:text="@string/annotation" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

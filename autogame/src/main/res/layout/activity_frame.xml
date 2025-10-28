@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_title" />
+
+    <TextView
+        android:id="@+id/tv_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:text="当前为初始化页面"
+        android:textColor="#00A811"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_accessibility"
+        style="@style/MainButtonStyle"
+        android:text="@string/permission_accessibility"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_float_window"
+        style="@style/MainButtonStyle"
+        android:text="@string/permission_flatwindow"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_list"
+        style="@style/MainButtonStyle"
+        android:text="@string/permission_list"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_write_settings"
+        style="@style/MainButtonStyle"
+        android:text="@string/permission_write_settings"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_phone_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_button_pressed"
+        android:gravity="center"
+        android:hint="请输入当前设备ID"
+        android:importantForAutofill="no"
+        android:lines="1"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:textColorHint="#4D4D4D"
+        android:textSize="17sp"
+        android:visibility="gone"
+        tools:ignore="HardcodedText"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_save_phone_id"
+        style="@style/MainButtonStyle"
+        android:tag="111"
+        android:text="保存设备ID"
+        android:visibility="gone"
+        tools:ignore="HardcodedText"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/console_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:overScrollMode="never"
+        android:scrollbars="vertical" />
+</LinearLayout>

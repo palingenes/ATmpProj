@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:orientation="vertical">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/arrow"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_touch"
+        android:padding="6dp"
+        android:src="@drawable/baseline_rocket_launch_24" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:background="@color/transparent"
+        android:textColor="@color/color_777"
+        android:textSize="9dp" />
+
+</LinearLayout>
