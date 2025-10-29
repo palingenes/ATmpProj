@@ -2,6 +2,12 @@
 
 -------------------------------------------------------
 
+短期测试1（人工）google 账号
+khanhdoandutwe@gmail.com——jAHM0aGqhl——phamkhanhdoanhuong92472@hotmail.com
+
+-------------------------------------------------------
+
+
 3个在线浏览器指纹
 https://fingerprintjs.github.io/fingerprintjs/
 https://www.thumbmarkjs.com/resources/demo
@@ -9,16 +15,18 @@ https://abrahamjuliot.github.io/creepjs/
 
 
 -------------------------------------------------------
-
+frida -H 127.0.0.1:28202 -f com.mergegames.gossipharbor -l hook.js >> frida.log
 
 1、连adb服务器
 cd /home/adbonline/venv/phone1/
-2、云手机启动frida-server
-adb -s XXXX:XXX shell sh /data/local/files/gms/downloads/restart.fir-server.sh 28202
-3、虚拟环境
+2、虚拟环境
 source bin/activate
-4、forward
-adb -s XXXXX:XXX forward tcp:28202 tcp:28202
-5、frida
+3. 连接云手机
+adb connect 98.98.125.9:20891
+4、云手机启动frida-server
+adb -s 98.98.125.9:20891 shell sh /data/local/files/gms/downloads/restart.fir-server.sh 28202
+5、forward
+adb -s 98.98.125.9:20891 forward tcp:28202 tcp:28202
+6、frida
 frida -H 127.0.0.1:28202 -f com.XXX.XXX -l hook.js >> frida.log
 rm frida.log
