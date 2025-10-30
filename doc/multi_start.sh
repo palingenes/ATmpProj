@@ -69,7 +69,16 @@ fi
 > "$LOG_GAME"
 
 echo "✅ 环境检查通过，目标设备: $DEVICE_SERIAL"
-echo "📌 请打开游戏 APP，脚本将自动注入..."
+
+echo "🚀 正在自动启动应用: $PACKAGE_MAIN"
+$ADB shell monkey -p $PACKAGE_MAIN -c android.intent.category.LAUNCHER 1 > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo "✅ 应用启动命令已发送"
+else
+    echo "⚠️  警告: 启动应用可能失败（可能未安装或无权限）"
+fi
+
+echo "📌 脚本将自动等待进程并注入..."
 
 # 等待主进程
 wait_and_hook "$PACKAGE_MAIN" "$LOG_MAIN" "主进程"
