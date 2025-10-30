@@ -15,7 +15,7 @@ https://abrahamjuliot.github.io/creepjs/
 
 
 -------------------------------------------------------
-frida -H 127.0.0.1:28202 -f com.mergegames.gossipharbor -l hook.js >> frida.log
+
 
 1、连adb服务器
 cd /home/adbonline/venv/phone1/
@@ -30,3 +30,12 @@ adb -s 98.98.125.9:20891 forward tcp:28202 tcp:28202
 6、frida
 frida -H 127.0.0.1:28202 -f com.XXX.XXX -l hook.js >> frida.log
 rm frida.log
+
+
+---------------------------------------------------------
+
+
+短期测试2
+虚拟环境：/home/testAdb/venv/phone0
+云手机frida server：sh /data/local/files/gms/test/restart.fir-server.sh 28202
+
