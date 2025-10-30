@@ -548,93 +548,199 @@
 
 
 
+// 功能：Google 登录、AdMob、Firebase、Play Games、Play Integrity 等
 Java.perform(function () {
-    console.log("[✅] 开始 Hook com.microfun.onesdk.GoogleLoginClient");
+    console.log("[🌍] Universal Google SDK Hook 已注入");
 
-    const GoogleLoginClient = Java.use("com.microfun.onesdk.GoogleLoginClient");
-    const GoogleSignIn = Java.use("com.google.android.gms.auth.api.signin.GoogleSignIn");
-    const ApiException = Java.use("com.google.android.gms.common.api.ApiException");
+    // ==================== 工具函数 ====================
+    function logWithPid(tag, msg) {
+        var pid = Java.use('android.os.Process').myPid();
+        console.log(`[mPid:${pid}] ${tag} | ${msg}`);
+    }
 
-    // 1. Hook 构造函数
-    GoogleLoginClient.$init.implementation = function (activity, listener) {
-        console.log("[🔧] GoogleLoginClient 初始化");
-        console.log("[📱] Activity: " + activity);
-        console.log("[👂] 回调监听器: " + listener);
-        var result = this.$init.call(this, activity, listener);
-        return result;
-    };
+    function printStack() {
+        Java.perform(function () {
+            var Exception = Java.use('java.lang.Exception');
+            var ins = Exception.$new();
+            console.log('\n📘 调用栈:\n' + ins.getStackTrace().map(it => `   at ${it.toString()}`).join('\n'));
+        });
+    }
 
-    // 2. Hook login() —— 触发登录的起点
-    GoogleLoginClient.login.implementation = function () {
-        console.log("[🚪] login() 被调用");
-        var lastAccount = GoogleSignIn.getLastSignedInAccount(this.activity);
-        if (lastAccount !== null) {
-            console.log("[🟢] 自动登录：用户已存在");
-            // 手动提取关键信息（不要用 toString()）
-            var id = lastAccount.getId() || "N/A";
-            var email = lastAccount.getEmail() || "N/A";
-            var name = lastAccount.getDisplayName() || "N/A";
-            console.log("[🔑] 自动登录信息 -> ID: " + id + ", Email: " + email + ", Name: " + name);
-            // 触发回调
-        } else {
-            console.log("[🔴] 启动手动登录流程...");
-        }
-        return this.login.call(this);
-    };
+    // ==================== 1. Google Sign-In ====================
+    try {
+        var GoogleSignInAccount = Java.use('com.google.android.gms.auth.api.signin.GoogleSignInAccount');
+        
+        GoogleSignInAccount.getDisplayName.implementation = function () {
+            var result = this.getDisplayName.call(this);
+            logWithPid("[🔑 GOOGLE LOGIN]", `用户昵称: ${result}`);
+            return result;
+        };
 
-    // 3. Hook handleSignInResult —— 最关键！登录结果在这里
-    GoogleLoginClient.handleSignInResult.implementation = function (task) {
-        console.log("[🔍] handleSignInResult 被调用，准备解析结果...");
+        GoogleSignInAccount.getEmail.implementation = function () {
+            var result = this.getEmail.call(this);
+            logWithPid("[🔑 GOOGLE LOGIN]", `邮箱: ${result}`);
+            return result;
+        };
 
-        try {
-            // 这里会抛出 ApiException 如果失败
-            var result = task.getResult(ApiException.class);
+        GoogleSignInAccount.getId.implementation = function () {
+            var result = this.getId.call(this);
+            logWithPid("[🔑 GOOGLE LOGIN]", `Google ID: ${result}`);
+            return result;
+        };
 
-            // ✅ 关键：不要用 toString()，而是调用具体方法
-            var id = result.getId() ? result.getId() : "N/A";
-            var email = result.getEmail() ? result.getEmail() : "N/A";
-            var displayName = result.getDisplayName() ? result.getDisplayName() : "N/A";
-            var photoUrl = result.getPhotoUrl() ? result.getPhotoUrl().toString() : "N/A";
+        GoogleSignInAccount.getIdToken.implementation = function () {
+            var result = this.getIdToken.call(this);
+            logWithPid("[🔑 GOOGLE LOGIN]", `ID Token: ${result}`);
+            return result;
+        };
 
-            console.log("[🎉] ✅ Google 登录成功！");
-            console.log("    🆔 用户 ID: " + id);
-            console.log("    📧 邮箱: " + email);
-            console.log("    📛 昵称: " + displayName);
-            console.log("    🖼️  头像: " + photoUrl);
+        console.log("[✅] Hooked Google Sign-In");
+    } catch (e) {
+        console.log("[❌] Google Sign-In 未找到");
+    }
 
-            // 调用原始方法
-            return this.handleSignInResult.call(this, task);
+    // ==================== 2. AdMob 广告 ====================
+    try {
+        var MobileAds = Java.use('com.google.android.gms.ads.MobileAds');
+        MobileAds.initialize.implementation = function (context, callback) {
+            logWithPid("[💰 ADMOB]", "AdMob 初始化");
+            return this.initialize.call(this, context, callback);
+        };
 
-        } catch (e) {
-            if (e.getClass && e.getClass().getName() === "com.google.android.gms.common.api.ApiException") {
-                var apiException = Java.cast(e, ApiException);
-                console.log("[❌] ❌ Google 登录失败:");
-                console.log("    🔢 错误码: " + apiException.getStatusCode());
-                console.log("    💬 错误信息: " + apiException.getMessage());
-            } else {
-                console.log("[⚠️] 其他异常: " + e.message);
+        // Hook 激励视频加载
+        var RewardedAd = Java.use('com.google.android.gms.ads.rewarded.RewardedAd');
+        RewardedAd.loadAd.implementation = function (context, adRequest, listener) {
+            logWithPid("[💰 ADMOB]", "激励视频开始加载");
+            printStack();
+            return this.loadAd.call(this, context, adRequest, listener);
+        };
+
+        // Hook 广告展示
+        var InterstitialAd = Java.use('com.google.android.gms.ads.InterstitialAd');
+        InterstitialAd.show.implementation = function () {
+            logWithPid("[💰 ADMOB]", "插屏广告正在展示！");
+            printStack();
+            return this.show.call(this);
+        };
+
+        console.log("[✅] Hooked AdMob");
+    } catch (e) {
+        console.log("[❌] AdMob 未找到");
+    }
+
+    // ==================== 3. Firebase Analytics ====================
+    try {
+        var FirebaseAnalytics = Java.use('com.google.firebase.analytics.FirebaseAnalytics');
+        
+        FirebaseAnalytics.logEvent.overloads.forEach(function (overload) {
+            overload.implementation = function (name, params) {
+                var eventName = name ? name.toString() : "unknown";
+                logWithPid("[📊 FIREBASE]", `事件触发: ${eventName}`);
+                if (params) {
+                    var entries = params.keySet().toArray();
+                    for (var i = 0; i < entries.length; i++) {
+                        var key = entries[i];
+                        var value = params.get(key);
+                        console.log(`     📌 ${key} = ${value}`);
+                    }
+                }
+                printStack();
+                return this.logEvent.call(this, name, params);
+            };
+        });
+
+        console.log("[✅] Hooked Firebase Analytics");
+    } catch (e) {
+        console.log("[❌] Firebase Analytics 未找到");
+    }
+
+    // ==================== 4. Play Games Services ====================
+    try {
+        var GamesClient = Java.use('com.google.android.gms.games.GamesClient');
+
+        // 解锁成就
+        GamesClient.unlockAchievement.implementation = function (achievementId) {
+            logWithPid("[🎮 PLAY GAMES]", `尝试解锁成就: ${achievementId}`);
+            printStack();
+            return this.unlockAchievement.call(this, achievementId);
+        };
+
+        GamesClient.unlockAchievementImmediate.implementation = function (callback, achievementId) {
+            logWithPid("[🎮 PLAY GAMES]", `立即解锁成就: ${achievementId}`);
+            return this.unlockAchievementImmediate.call(this, callback, achievementId);
+        };
+
+        // 提交排行榜
+        GamesClient.submitScore.implementation = function (leaderboardId, score) {
+            logWithPid("[🎮 PLAY GAMES]", `提交排行榜: ${leaderboardId}, 分数: ${score}`);
+            return this.submitScore.call(this, leaderboardId, score);
+        };
+
+        console.log("[✅] Hooked Play Games Services");
+    } catch (e) {
+        console.log("[❌] Play Games Services 未找到");
+    }
+
+    // ==================== 5. Play Integrity API ====================
+    try {
+        var PlayIntegrityManager = Java.use('com.google.android.play.integrity.PlayIntegrityManager');
+        
+        PlayIntegrityManager.request.implementation = function (requestConfig) {
+            logWithPid("[🛡️ PLAY INTEGRITY]", "应用请求设备完整性校验");
+            printStack();
+            return this.request.call(this, requestConfig);
+        };
+
+        console.log("[✅] Hooked Play Integrity API");
+    } catch (e) {
+        console.log("[❌] Play Integrity API 未找到");
+    }
+
+    // ==================== 6. FCM 推送 ====================
+    try {
+        var FirebaseMessagingService = Java.use('com.google.firebase.messaging.FirebaseMessagingService');
+        
+        FirebaseMessagingService.onNewToken.implementation = function (token) {
+            logWithPid("[🔔 FCM]", `收到新推送 Token: ${token}`);
+            return this.onNewToken.call(this, token);
+        };
+
+        FirebaseMessagingService.onMessageReceived.implementation = function (remoteMessage) {
+            logWithPid("[🔔 FCM]", "收到推送消息");
+            var data = remoteMessage.getData();
+            if (data.size() > 0) {
+                console.log("   数据: " + JSON.stringify(data));
             }
-            throw e; // 保持原行为
-        }
-    };
+            return this.onMessageReceived.call(this, remoteMessage);
+        };
 
-    // 4. 可选：Hook getLastSignedInAccount，查看缓存账户
-    GoogleSignIn.getLastSignedInAccount.implementation = function (context) {
-        var account = this.getLastSignedInAccount.call(this, context);
-        if (account !== null) {
-            console.log("[🕵️] 缓存账户存在，尝试提取信息...");
-            try {
-                var id = account.getId();
-                var email = account.getEmail();
-                var name = account.getDisplayName();
-                console.log("[💾] 缓存用户 -> ID: " + id + ", Email: " + email + ", Name: " + name);
-            } catch (err) {
-                console.log("[❌] 无法读取缓存账户信息: " + err.message);
-            }
-        } else {
-            console.log("[🕵️] 无缓存账户");
-        }
-        return account;
-    }; 
+        console.log("[✅] Hooked Firebase Messaging (FCM)");
+    } catch (e) {
+        console.log("[❌] Firebase Messaging 未找到");
+    }
+
+    // ==================== 7. Google Maps ====================
+    try {
+        var GoogleMap = Java.use('com.google.android.gms.maps.GoogleMap');
+        
+        GoogleMap.setOnMapClickListener.implementation = function (listener) {
+            logWithPid("[🗺️ GOOGLE MAPS]", "地图点击监听器已设置");
+            return this.setOnMapClickListener.call(this, listener);
+        };
+
+        console.log("[✅] Hooked Google Maps");
+    } catch (e) {
+        console.log("[❌] Google Maps 未找到");
+    }
+
+    // ==================== 8. 获取进程信息 ====================
+    try {
+        var context = Java.use('android.app.ActivityThread').currentApplication().getApplicationContext();
+        var packageName = context.getPackageName();
+        var processName = Java.use('android.os.Process').getCmdline()[0];
+        logWithPid("[📱 PROCESS]", `包名: ${packageName} | 进程: ${processName}`);
+    } catch (e) {
+        logWithPid("[📱 PROCESS]", "无法获取进程信息");
+    }
 
 });
