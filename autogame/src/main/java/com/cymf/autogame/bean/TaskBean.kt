@@ -3,7 +3,6 @@ package com.cymf.autogame.bean
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-
 data class TaskBean(
     @Json(name = "code")
     val code: Int,

@@ -28,8 +28,8 @@ android {
         applicationId = "com.cymf.autogame"
         minSdk = 26
         targetSdk = 36
-        versionCode = 8
-        versionName = "1.0.8"
+        versionCode = 9
+        versionName = "1.0.9"
         multiDexEnabled = true
         vectorDrawables {
             useSupportLibrary = true
@@ -87,7 +87,7 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        freeCompilerArgs.addAll("-Xinline-classes", "-Xallow-result-return-type", "-Xjsr305=strict")
+        freeCompilerArgs.addAll("-Xinline-classes", "-Xallow-result-return-type", "-Xjsr305=strict","-Xannotation-default-target=param-property")
     }
 }
 
@@ -124,9 +124,9 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.10.1")
     implementation("androidx.concurrent:concurrent-futures-ktx:1.2.0")
 
-    implementation("com.squareup.okhttp3:okhttp:5.2.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.2.1")
-    implementation("com.squareup.okio:okio:3.16.0")
+    implementation("com.squareup.okhttp3:okhttp:5.3.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.3.0")
+    implementation("com.squareup.okio:okio:3.16.2")
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.moshi:moshi:1.15.2")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.2")

@@ -423,7 +423,7 @@ class SideBarContent : View.OnClickListener {
     private fun checkTaskTimeAndBtnStyle() {
         val currTask = TaskPollingManager.getCurrTask()
         val isGame = currTask?.isGameApp == true
-        // TODO: 需要根据任务类型进行限制，比如去Google play下载就不应该增加限时
+
         hasTask = when (currTask?.modeID) {
             2, 6 -> {    //  激活
                 GlobalTimer.getInstance().checkTimed(if (isGame) 15 else 5)
@@ -433,7 +433,7 @@ class SideBarContent : View.OnClickListener {
                 GlobalTimer.getInstance().checkTimed(if (isGame) 5 else 2)
             }
 
-            else -> false
+            else -> true    // 除了激活和留存其他都是true
         }
 
         if (killTaskAndSuccess == null) {
