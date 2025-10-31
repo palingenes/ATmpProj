@@ -1,0 +1,48 @@
+{
+    "AppSetIdInfo": {
+        "ID": "821e84ed-7cfd-52a8-fcfd-1610c806ee57"
+    },
+    "SystemClock": {
+        "elapsedRealtime": 1329012036,
+        "uptimeMillis": 301969531,
+        "elapsedRealtimeNanos": 1329012036000000
+    },
+    "ReferrerDetails": {
+        "getReferrerClickTimestampServerSeconds": 1761852163,
+        "getInstallReferrer": "moloco_51a6f5af-1905-40d1-81a8-30d0412fa404",
+        "getInstallVersion": "1.1171",
+        "getReferrerClickTimestampSeconds": 1761852163,
+        "getInstallBeginTimestampSeconds": 1761852165,
+        "getInstallBeginTimestampServerSeconds": 1761852165
+    },
+    "ip": {
+        "FAKE_IP": "192.168.0.97",
+        "FAKE_GATEWAY_V6": "fe80::17be:0288:c9c9:727d",
+        "FAKE_IP_BASE": "192.168.0.",
+        "FAKE_GATEWAY_V4": "192.168.0.1",
+        "FAKE_IP_START": 96,
+        "fakeIpRouteOutput": "192.168.0.0/24 dev wlan0 proto kernel scope link src 192.168.0.96 \ndefault via 192.168.0.1 dev eno0"
+    },
+    "ANDROID_ID": "17b125096d8e7941",
+    "needAdLoadLog": false,
+    "motionEvents": {
+        "flags": 0,
+        "sizeMax": 0.019607844,
+        "deviceId": 3,
+        "pressureMax": 1,
+        "sizeMin": 0.011764707,
+        "pressureMin": 1
+    },
+    "AppPackageInfo": {
+        "firstInstallTime": 1761852640367,
+        "systemAppLastUpdateTime": 1746771849523,
+        "systemAppFirstInstallTime": 1746771849523,
+        "APP_PACKAGE": "wool.master.screw.match.coloring",
+        "lastUpdateTime": 1761852640367
+    },
+    "others": {
+        "wifiName": "ASUS_0362.4G",
+        "rebootTimeMillisecond": 1760552654805,
+        "isCollectNetwork": false
+    }
+}

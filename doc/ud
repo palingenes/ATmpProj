@@ -1,0 +1,435 @@
+{
+    "country": "TW",
+    "getRefreshRate": 60.000004,
+    "BATTERY_PROPERTY_CAPACITY_LONG": 53,
+    "HOST": "SWDK6117",
+    "language": "zh",
+    "WindowInsets$Type_statusBars": 0,
+    "WindowInsets$Type_navigationBars": 0,
+    "BATTERY_PROPERTY_CHARGE_COUNTER": 2041137,
+    "maxMemory": 1073741824,
+    "WindowInsets$Type_displayCutout": 0,
+    "elapsedRealtimeNanos": 9562161060845516,
+    "GET_DEVICES_INPUTS": [
+        {
+            "getChannelCounts": [
+                1,
+                2
+            ],
+            "getEncapsulationMetadataTypes": [],
+            "getType": 15,
+            "getChannelIndexMasks": [],
+            "getEncodings": [
+                2
+            ],
+            "getAddress": "bottom",
+            "getId": 9,
+            "getSampleRates": [
+                8000,
+                12000,
+                16000,
+                24000,
+                32000,
+                48000,
+                11025,
+                22050,
+                44100
+            ],
+            "getChannelMasks": [
+                16,
+                48,
+                12
+            ],
+            "getEncapsulationModes": [],
+            "getProductName": "SM-A515F"
+        },
+        {
+            "getChannelCounts": [
+                1,
+                2
+            ],
+            "getEncapsulationMetadataTypes": [],
+            "getType": 18,
+            "getChannelIndexMasks": [],
+            "getEncodings": [
+                2
+            ],
+            "getAddress": "",
+            "getId": 10,
+            "getSampleRates": [
+                8000,
+                12000,
+                16000,
+                24000,
+                32000,
+                48000,
+                11025,
+                22050,
+                44100
+            ],
+            "getChannelMasks": [
+                16,
+                48,
+                12
+            ],
+            "getEncapsulationModes": [],
+            "getProductName": "SM-A515F"
+        },
+        {
+            "getChannelCounts": [
+                1,
+                2
+            ],
+            "getEncapsulationMetadataTypes": [],
+            "getType": 15,
+            "getChannelIndexMasks": [],
+            "getEncodings": [
+                2
+            ],
+            "getAddress": "back",
+            "getId": 11,
+            "getSampleRates": [
+                8000,
+                12000,
+                16000,
+                24000,
+                32000,
+                48000,
+                11025,
+                22050,
+                44100
+            ],
+            "getChannelMasks": [
+                16,
+                48,
+                12
+            ],
+            "getEncapsulationModes": [],
+            "getProductName": "SM-A515F"
+        },
+        {
+            "getChannelCounts": [
+                2
+            ],
+            "getEncapsulationMetadataTypes": [],
+            "getType": 25,
+            "getChannelIndexMasks": [],
+            "getEncodings": [
+                2
+            ],
+            "getAddress": "0",
+            "getId": 15,
+            "getSampleRates": [
+                48000
+            ],
+            "getChannelMasks": [
+                12
+            ],
+            "getEncapsulationModes": [],
+            "getProductName": "SM-A515F"
+        }
+    ],
+    "getSimOperatorName": "中華電信_Chunghwa Telecom",
+    "elapsedRealtime": 9562161060,
+    "GET_DEVICES_OUTPUTS": [
+        {
+            "getChannelCounts": [
+                1
+            ],
+            "getEncapsulationMetadataTypes": [],
+            "getType": 1,
+            "getChannelIndexMasks": [],
+            "getEncodings": [
+                2
+            ],
+            "getAddress": "",
+            "getId": 2,
+            "getSampleRates": [
+                48000
+            ],
+            "getChannelMasks": [
+                4
+            ],
+            "getEncapsulationModes": [],
+            "getProductName": "SM-A515F"
+        },
+        {
+            "getChannelCounts": [
+                2
+            ],
+            "getEncapsulationMetadataTypes": [],
+            "getType": 2,
+            "getChannelIndexMasks": [],
+            "getEncodings": [
+                2
+            ],
+            "getAddress": "",
+            "getId": 3,
+            "getSampleRates": [
+                48000
+            ],
+            "getChannelMasks": [
+                12
+            ],
+            "getEncapsulationModes": [],
+            "getProductName": "SM-A515F"
+        }
+    ],
+    "VERSION$SECURITY_PATCH": "2023-08-01",
+    "PROPERTY_OUTPUT_SAMPLE_RATE": "48000",
+    "ID": "TP1A.220624.014",
+    "getMode": {
+        "getPhysicalHeight": 2400,
+        "getRefreshRate": 60.000004,
+        "getPhysicalWidth": 1080,
+        "getAlternativeRefreshRates": [],
+        "getModeId": 1,
+        "toString": "{id=1, width=1080, height=2400, fps=60.000004, alternativeRefreshRates=[]}",
+        "describeContents": 0
+    },
+    "BATTERY_PROPERTY_CAPACITY": 53,
+    "TYPE": "user",
+    "dataStatFs": {
+        "getAvailableBlocksLong": 17255363,
+        "getTotalBytes": 119489409024,
+        "getBlockSizeLong": 4096,
+        "getBlockCountLong": 29172219,
+        "getBlockSize": 4096,
+        "getAvailableBlocks": 17255363,
+        "getFreeBlocks": 17288131,
+        "getFreeBytes": 70812184576,
+        "getBlockCount": 29172219,
+        "getFreeBlocksLong": 17288131,
+        "getAvailableBytes": 70677966848
+    },
+    "getRealSize": {
+        "x": 1080,
+        "y": 2400
+    },
+    "getSimCarrierIdName": "中華電信_Chunghwa Telecom",
+    "getNetworkOperator": "46692",
+    "WindowInsets$Type_systemGestures": 0,
+    "WindowInsets$Type_systemOverlays": 0,
+    "http_agent": "Dalvik/2.1.0 (Linux; U; Android 13; SM-A515F Build/TP1A.220624.014)",
+    "TimeZone": "Asia/Taipei",
+    "BATTERY_PROPERTY_CURRENT_AVERAGE_LONG": -283,
+    "getSimCountryIso": "tw",
+    "getHdrCapabilities": {
+        "getSupportedHdrTypes": [],
+        "getDesiredMinLuminance": 0,
+        "getDesiredMaxAverageLuminance": 500,
+        "getDesiredMaxLuminance": 500,
+        "toString": "HdrCapabilities{mSupportedHdrTypes=[], mMaxLuminance=500.0, mMaxAverageLuminance=500.0, mMinLuminance=0.0}",
+        "describeContents": 0
+    },
+    "WindowInsets$Type_ime": 0,
+    "WindowInsets$Type_mandatorySystemGestures": 0,
+    "BATTERY_PROPERTY_CURRENT_AVERAGE": -245,
+    "getSimOperator": "46692",
+    "WindowInsets$Type_tappableElement": 0,
+    "TAGS": "release-keys",
+    "VERSION$CODENAME": "REL",
+    "BATTERY_PROPERTY_CHARGE_COUNTER_LONG": 2041137,
+    "getDisplayCutout": {
+        "getBoundingRectRight": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "getSafeInsetBottom": 0,
+        "getBoundingRectLeft": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "getSafeInsetLeft": 0,
+        "getBoundingRects": [
+            {
+                "top": 0,
+                "left": 512,
+                "bottom": 88,
+                "right": 568
+            }
+        ],
+        "toString": "DisplayCutout{insets=Rect(0, 88 - 0, 0) waterfall=Insets{left=0, top=0, right=0, bottom=0} boundingRect={Bounds=[Rect(0, 0 - 0, 0), Rect(512, 0 - 568, 88), Rect(0, 0 - 0, 0), Rect(0, 0 - 0, 0)]} cutoutPathParserInfo={CutoutPathParserInfo{displayWidth=1080 displayHeight=2400 physicalDisplayWidth=1080 physicalDisplayHeight=2400 density={2.625} cutoutSpec={M 0,0 M 0,12.25101276465640 a 10.60613009248640,10.60613009248640 0 1,0 0,21.21226018497290 a 10.60613009248640,10.60613009248640 0 1,0 0,-21.21226018497290 Z @dp} rotation={0} scale={1.0} physicalPixelDisplaySizeRatio={1.0}}}}",
+        "getSafeInsetTop": 88,
+        "getBoundingRectBottom": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "getBoundingRectTop": {
+            "top": 0,
+            "left": 512,
+            "bottom": 88,
+            "right": 568
+        },
+        "getSafeInsetRight": 0,
+        "getWaterfallInsets": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        }
+    },
+    "isLimitAdTrackingEnabled": false,
+    "storageEmulatedStatFs": {
+        "getAvailableBlocksLong": 17255363,
+        "getTotalBytes": 119489409024,
+        "getBlockSizeLong": 4096,
+        "getBlockCountLong": 29172219,
+        "getBlockSize": 4096,
+        "getAvailableBlocks": 17255363,
+        "getFreeBlocks": 17288131,
+        "getFreeBytes": 70812184576,
+        "getBlockCount": 29172219,
+        "getFreeBlocksLong": 17288131,
+        "getAvailableBytes": 70677966848
+    },
+    "VERSION$RELEASE": "13",
+    "getSimState": 5,
+    "getMemoryInfo": {
+        "foregroundAppThreshold": 48380928,
+        "totalMem": 5843116032,
+        "availMem": 1745829888,
+        "threshold": 147855360,
+        "lowMemory": false
+    },
+    "getMetrics": {
+        "densityDpi": 480,
+        "scaledDensity": 3,
+        "density": 3,
+        "heightPixels": 2168,
+        "toString": "DisplayMetrics{density=3.0, width=1080, height=2168, scaledDensity=3.0, xdpi=409.432, ydpi=406.4}",
+        "ydpi": 406.4,
+        "xdpi": 409.432,
+        "widthPixels": 1080
+    },
+    "BATTERY_PROPERTY_TOTAL_LONG": 3851202,
+    "WindowInsets$Type_systemBars": 0,
+    "getDisplayMetrics": {
+        "densityDpi": 480,
+        "scaledDensity": 6,
+        "density": 3,
+        "heightPixels": 2168,
+        "toString": "DisplayMetrics{density=3.0, width=1080, height=2168, scaledDensity=6.0, xdpi=409.432, ydpi=406.4}",
+        "ydpi": 406.4,
+        "xdpi": 409.432,
+        "widthPixels": 1080
+    },
+    "getWidth": 1080,
+    "offloadVariableRateSupported": "",
+    "motionEvents": [
+        {
+            "size": 0.019607844,
+            "X": 692.40234,
+            "flags": 0,
+            "Y": 1108.0078,
+            "action": 0,
+            "pressure": 1,
+            "time": 1908183782,
+            "deviceId": 3
+        },
+        {
+            "size": 0.015686275,
+            "X": 694.7754,
+            "flags": 0,
+            "Y": 1107.4219,
+            "action": 1,
+            "pressure": 1,
+            "time": 1908183857,
+            "deviceId": 3
+        },
+        {
+            "size": 0.015686275,
+            "X": 851.66016,
+            "flags": 0,
+            "Y": 1733.7891,
+            "action": 0,
+            "pressure": 1,
+            "time": 1908189816,
+            "deviceId": 3
+        },
+        {
+            "size": 0.011764707,
+            "X": 931.28906,
+            "flags": 0,
+            "Y": 1464.8438,
+            "action": 1,
+            "pressure": 1,
+            "time": 1908189957,
+            "deviceId": 3
+        }
+    ],
+    "settingSecureHashMapInt": {
+        "accessibility_enabled": 0,
+        "adb_enabled": 0,
+        "stylus_handwriting_enabled": 0
+    },
+    "VERSION$SDK_INT": 33,
+    "DISPLAY": "TP1A.220624.014.A515FZHU8HWI1",
+    "getHeight": 2168,
+    "getConfiguration": {
+        "densityDpi": 480,
+        "navigation": 1,
+        "mnc": 92,
+        "screenWidthDp": 360,
+        "smallestScreenWidthDp": 360,
+        "navigationHidden": 2,
+        "screenHeightDp": 722,
+        "colorMode": 5,
+        "mcc": 466
+    },
+    "GAID": "5f19a1a0-24ed-4022-b6ca-2bdbfc779da0",
+    "getNetworkOperatorName": "中華電信",
+    "BATTERY_PROPERTY_ENERGY_COUNTER_LONG": -9223372036854775808,
+    "getNetworkCountryIso": "tw",
+    "BATTERY_PROPERTY_CURRENT_NOW_LONG": -481,
+    "storageStatFs": {
+        "getAvailableBlocksLong": 713271,
+        "getTotalBytes": 2921558016,
+        "getBlockSizeLong": 4096,
+        "getBlockCountLong": 713271,
+        "getBlockSize": 4096,
+        "getAvailableBlocks": 713271,
+        "getFreeBlocks": 713271,
+        "getFreeBytes": 2921558016,
+        "getBlockCount": 713271,
+        "getFreeBlocksLong": 713271,
+        "getAvailableBytes": 2921558016
+    },
+    "uptimeMillis": 1908197104,
+    "settingGlobalHashMapInt": {
+        "boot_count": 50,
+        "force_fsg_nav_bar": 0
+    },
+    "TIME": 1695354947000,
+    "BATTERY_PROPERTY_ENERGY_COUNTER": -2147483648,
+    "USER": "dpi",
+    "WindowInsets$Type_captionBar": 0,
+    "settingGlobalHashMapString": {
+        "boot_count": "50"
+    },
+    "windowMetrics_getBounds": {
+        "top": 0,
+        "left": 0,
+        "bottom": 2400,
+        "right": 1080
+    },
+    "VERSION$SDK": "33",
+    "getUserAgentString": "Mozilla/5.0 (Linux; Android 13; SM-A515F Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/140.0.7339.207 Mobile Safari/537.36",
+    "getSize": {
+        "x": 1080,
+        "y": 2168
+    },
+    "settingSecureHashMapString": {},
+    "hasSystemFeature": {
+        "android.hardware.touchscreen.multitouch.jazzhand": true,
+        "android.hardware.audio.low_latency": true
+    },
+    "BATTERY_PROPERTY_CURRENT_NOW": -481,
+    "VERSION$INCREMENTAL": "A515FZHU8HWI1"
+}
