@@ -299,8 +299,7 @@ class SideBarContent : View.OnClickListener {
         }
         if (send) {
             mHandler.sendEmptyMessageDelayed(
-                COUNT_DOWN_TAG,
-                COUNT_DOWN_TIME.toLong()
+                COUNT_DOWN_TAG, COUNT_DOWN_TIME.toLong()
             )
         }
     }
@@ -313,21 +312,29 @@ class SideBarContent : View.OnClickListener {
                 YLLogger.d("# start kill Task App --> $pkgName")
                 ProcessKiller.killApp(App.context, pkgName)
             }
-
-            GlobalTimer.getInstance().currentTime.removeObserver(timerObserver)
-            GlobalTimer.getInstance().reset()
+            runCatching {
+                GlobalTimer.getInstance().currentTime.removeObserver(timerObserver)
+                GlobalTimer.getInstance().reset()
+            }
 
             if (!isStartMe) return@launch
 
+            val selfPkgName = App.context.packageName
             val context = App.context
-            val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-                ?: Intent(Intent.ACTION_MAIN).apply {
-                    component = ComponentName(context.packageName, FrameActivity::class.java.name)
-                    addCategory(Intent.CATEGORY_LAUNCHER)
-                }
-            intent.flags =
-                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+            val intent = (context.packageManager.getLaunchIntentForPackage(selfPkgName) ?: Intent(
+                Intent.ACTION_MAIN
+            ).apply {
+                component = ComponentName(selfPkgName, FrameActivity::class.java.name)
+                addCategory(Intent.CATEGORY_LAUNCHER)
+            }).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+            }
             context.startActivity(intent)
+
+            App.runOnUiThread({
+                val command = "monkey -p $selfPkgName -c android.intent.category.LAUNCHER 1"
+                Shell.cmd(command).submit()
+            }, 800)
         }
     }
 
@@ -390,14 +397,15 @@ class SideBarContent : View.OnClickListener {
         val finalWidth = min(contentWidth, screenWidth - margin11 * 2)
         val finalHeight = min(contentHeight, screenHeight - margin11 * 2)
 
-        val params = contentView.layoutParams as? WindowManager.LayoutParams
-            ?: WindowManager.LayoutParams().apply {
-                type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                format = PixelFormat.RGBA_8888
-                flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                windowAnimations = R.style.ContentCoverAnim
-                gravity = Gravity.START or Gravity.TOP
-            }
+        val params =
+            contentView.layoutParams as? WindowManager.LayoutParams ?: WindowManager.LayoutParams()
+                .apply {
+                    type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                    format = PixelFormat.RGBA_8888
+                    flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                    windowAnimations = R.style.ContentCoverAnim
+                    gravity = Gravity.START or Gravity.TOP
+                }
 
         params.width = finalWidth
         params.height = finalHeight
