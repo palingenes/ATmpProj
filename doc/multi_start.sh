@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 #
 # auto_multi_hook.sh
-# 指定设备的 Frida 多进程自动注入脚本
-# 设备: 98.98.125.9:20891
+# 指定设备的 Frida 多进程自动注入脚本 
 #
 
 # ==================== 配置区 ====================
-DEVICE_SERIAL="98.98.125.9:20891"
+DEVICE_SERIAL="98.98.125.9:20732"
 PACKAGE_MAIN="com.mergegames.gossipharbor"
 PACKAGE_GAME="com.mergegames.gossipharbor:Game"
-FRIDA_SCRIPT="hook.js"
+FRIDA_SCRIPT="tmp.js"
 LOG_MAIN="main.log"
 LOG_GAME="game.log"
 FRIDA_HOST="127.0.0.1:28202"
@@ -51,7 +50,7 @@ if ! $ADB get-state >/dev/null 2>&1; then
     echo "❌ 错误: 无法连接到设备 $DEVICE_SERIAL"
     echo "请检查："
     echo "  1. 设备是否在线"
-    echo "  2. 是否已执行: adb connect 98.98.125.9:20891"
+    echo "  2. 是否已执行: adb connect 98.98.125.9:20732"
     exit 1
 fi
 

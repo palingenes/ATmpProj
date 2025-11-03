@@ -22,11 +22,11 @@ cd /home/adbonline/venv/phone1/
 2、虚拟环境
 source bin/activate
 3. 连接云手机
-adb connect 98.98.125.9:20891
+adb connect 98.98.125.9:20732
 4、云手机启动frida-server
-adb -s 98.98.125.9:20891 shell sh /data/local/files/gms/downloads/restart.fir-server.sh 28202
+adb -s 98.98.125.9:20732 shell sh /data/local/files/gms/downloads/restart.fir-server.sh 28202
 5、forward
-adb -s 98.98.125.9:20891 forward tcp:28202 tcp:28202
+adb -s 98.98.125.9:20732 forward tcp:28202 tcp:28202
 6、frida
 frida -H 127.0.0.1:28202 -f com.XXX.XXX -l hook.js >> frida.log
 rm frida.log
