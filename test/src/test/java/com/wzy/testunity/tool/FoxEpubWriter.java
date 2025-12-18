@@ -1,72 +1,84 @@
 package com.wzy.testunity.tool;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
 
+/**
+ * public static void main(String[] args) throws IOException {
+ *     FoxEpubWriter writer = new FoxEpubWriter(new File("黄泉逆行.epub"), "黄泉逆行");
+ *     writer.setBookCreator("作者名");
+ *     // 设置封面（关键！）
+ *     writer.setCoverImage(new File("cover.jpg")); // 支持 .jpg / .png
+ *     writer.addChapter("第1章 起始", "夜很黑，也很静……");
+ *     writer.addChapter("第2章 黄泉路", "十殿阎罗的虚影浮现……");
+ *     writer.saveAll();
+ *     System.out.println("EPUB 生成完成！");
+ * }
+ */
 public class FoxEpubWriter {
 
-    private File ePubFile; // 生成的epub文件
+    private final File ePubFile; // 生成的epub文件
     private FoxZipWriter zw; // epub 写为 zip文件
     private File TmpDir; // mobi 临时目录
 
-    private boolean isEpub = true;
+    private boolean isEpub;
 
-    private String BookName = "unknowBook";
+    private String BookName;
     private String BookCreator = "zzzia";
-    private String CSS = "body{\n" +
-            " margin:10px;\n" +
-            " font-size: 1.0em;word-wrap:break-word;\n" +
-            "}\n" +
-            "ul,li{list-style-type:none;margin:0;padding:0;}\n" +
-            "p{text-indent:2em; line-height:1.5em; margin-top:0; margin-bottom:1.5em;}\n" +
-            ".catalog{padding: 1.5em 0;font-size: 0.8em;}\n" +
-            "li{border-bottom: 1px solid #D5D5D5;}\n" +
-            "h1{font-size:1.6em; font-weight:bold;}\n" +
-            "h2 {\n" +
-            "    display: block;\n" +
-            "    font-size: 1.2em;\n" +
-            "    font-weight: bold;\n" +
-            "    margin-bottom: 0.83em;\n" +
-            "    margin-left: 0;\n" +
-            "    margin-right: 0;\n" +
-            "    margin-top: 1em;\n" +
-            "}\n" +
-            ".mbppagebreak {\n" +
-            "    display: block;\n" +
-            "    margin-bottom: 0;\n" +
-            "    margin-left: 0;\n" +
-            "    margin-right: 0;\n" +
-            "    margin-top: 0 }\n" +
-            "a {\n" +
-            "    color: inherit;\n" +
-            "    text-decoration: none;\n" +
-            "    cursor: default\n" +
-            "    }\n" +
-            "a[href] {\n" +
-            "    color: blue;\n" +
-            "    text-decoration: none;\n" +
-            "    cursor: pointer\n" +
-            "    }\n" +
-            "\n" +
-            ".italic {\n" +
-            "    font-style: italic\n" +
-            "    }\n";
+    private String CSS = """
+            body{
+             margin:10px;
+             font-size: 1.0em;word-wrap:break-word;
+            }
+            ul,li{list-style-type:none;margin:0;padding:0;}
+            p{text-indent:2em; line-height:1.5em; margin-top:0; margin-bottom:1.5em;}
+            .catalog{padding: 1.5em 0;font-size: 0.8em;}
+            li{border-bottom: 1px solid #D5D5D5;}
+            h1{font-size:1.6em; font-weight:bold;}
+            h2 {
+                display: block;
+                font-size: 1.2em;
+                font-weight: bold;
+                margin-bottom: 0.83em;
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 1em;
+            }
+            .mbppagebreak {
+                display: block;
+                margin-bottom: 0;
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 0 }
+            a {
+                color: inherit;
+                text-decoration: none;
+                cursor: default
+                }
+            a[href] {
+                color: blue;
+                text-decoration: none;
+                cursor: pointer
+                }
+            
+            .italic {
+                font-style: italic
+                }
+            """;
 
     private final String DefNameNoExt = "FoxMake"; //默认文件名
-    private String BookUUID = UUID.randomUUID().toString();
+    private final String BookUUID = UUID.randomUUID().toString();
 
     ArrayList<HashMap<String, Object>> Chapter = new ArrayList<HashMap<String, Object>>(200); //章节结构:1:ID 2:Title 3:Level
     int ChapterID = 100; //章节ID
 
-    public FoxEpubWriter(File oEpubFile) {
-        this(oEpubFile, "FoxEBook");
-    }
+    // ====== 新增：封面支持 ======
+    private byte[] coverImageBytes = null;
+    private String coverMimeType = "image/jpeg";
 
     public FoxEpubWriter(File oEpubFile, String iBookName) {
         ePubFile = oEpubFile;
@@ -90,6 +102,24 @@ public class FoxEpubWriter {
         }
     }
 
+    // ====== 新增方法：设置封面 ======
+    public void setCoverImage(byte[] imageBytes, String mimeType) {
+        this.coverImageBytes = imageBytes;
+        if (mimeType != null && mimeType.toLowerCase().startsWith("image/")) {
+            this.coverMimeType = mimeType;
+        } else {
+            this.coverMimeType = "image/jpeg";
+        }
+    }
+
+    public void setCoverImage(File imageFile) throws IOException {
+        byte[] bytes = Files.readAllBytes(imageFile.toPath());
+        String name = imageFile.getName().toLowerCase();
+        String mime = name.endsWith(".png") ? "image/png" :
+                name.endsWith(".gif") ? "image/gif" : "image/jpeg";
+        setCoverImage(bytes, mime);
+    }
+
     public void setBookName(String bookName) {
         this.BookName = bookName;
     }
@@ -102,7 +132,7 @@ public class FoxEpubWriter {
         this.BookCreator = creatorName;
     }
 
-    public void setCSS(String css) { // 覆盖CSS
+    public void setCSS(String css) {
         this.CSS = css;
     }
 
@@ -121,16 +151,63 @@ public class FoxEpubWriter {
             this.ChapterID = iPageID;
         }
 
-        HashMap<String, Object> cc = new HashMap<String, Object>();
+        HashMap<String, Object> cc = new HashMap<>();
         cc.put("id", this.ChapterID);
         cc.put("name", Title);
         cc.put("level", iLevel);
         Chapter.add(cc);
 
-        this._CreateChapterHTML(Title, Content, this.ChapterID); //写入文件
+        this._CreateChapterHTML(Title, Content, this.ChapterID);
+    }
+
+    // ====== 新增：保存封面图片 ======
+    private void _SaveCoverImage() {
+        if (coverImageBytes == null) return;
+        if (isEpub) {
+            zw.putBinFile(coverImageBytes, "cover.jpg", false);
+        } else {
+            writeBin(coverImageBytes, new File(TmpDir, "cover.jpg").getPath());
+        }
+    }
+
+    // ====== 新增：生成封面 HTML ======
+    private void _CreateCoverHTML() {
+        if (coverImageBytes == null) return;
+        String ext = "jpg";
+        if ("image/png".equals(coverMimeType)) ext = "png";
+        else if ("image/gif".equals(coverMimeType)) ext = "gif";
+
+        String html = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+                "<head>\n" +
+                "  <title>Cover</title>\n" +
+                "  <style type=\"text/css\">\n" +
+                "    body, div { margin: 0; padding: 0; }\n" +
+                "    img { max-width: 100%; height: auto; display: block; margin: auto; }\n" +
+                "  </style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "  <div><img src=\"cover." + ext + "\" alt=\"Cover\" /></div>\n" +
+                "</body>\n" +
+                "</html>";
+        _SaveFile(html, "cover.html");
+    }
+
+    // ====== 辅助方法：写入二进制文件（用于 MOBI 模式）======
+    private static void writeBin(byte[] data, String path) {
+        try (FileOutputStream fos = new FileOutputStream(path)) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveAll() {
+        // 先处理封面
+        if (coverImageBytes != null) {
+            _SaveCoverImage();
+            _CreateCoverHTML();
+        }
+
         this._CreateIndexHTM();
         this._CreateNCX();
         this._CreateOPF();
@@ -141,13 +218,11 @@ public class FoxEpubWriter {
         } else { // 生成mobi
             try {
                 Process cmd = Runtime.getRuntime().exec("kindlegen " + DefNameNoExt + ".opf", null, TmpDir);
-                // 缓冲区需要释放, 不然会阻塞 kindlegen
                 InputStream iput = cmd.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(iput));
                 while (br.readLine() != null) ;
                 br.close();
                 iput.close();
-                // 缓冲区需要释放
                 cmd.waitFor();
             } catch (Exception e) {
                 System.err.println(e.toString());
@@ -155,35 +230,25 @@ public class FoxEpubWriter {
             File tmpF = new File(TmpDir, DefNameNoExt + ".mobi");
             if (tmpF.exists() && tmpF.length() > 555) {
                 tmpF.renameTo(ePubFile);
-                ToolJava.deleteDir(TmpDir); // 移除临时目录
+                ToolJava.deleteDir(TmpDir);
             }
         }
     }
 
-    private void _CreateNCX() { //生成NCX文件
-        StringBuffer NCXList = new StringBuffer(4096);
-        int DisOrder = 1; //初始 顺序, 根据下面的playOrder数据
-
-        HashMap<String, Object> mm;
-        int nowID = 0;
-        String nowTitle = "";
-        int nowLevel = 0;
-        int nextLevel = 0;
-
+    private void _CreateNCX() {
+        StringBuilder NCXList = new StringBuilder(4096);
+        int DisOrder = 1;
         int chapterCount = Chapter.size();
         int lastIDX = chapterCount - 1;
+
         for (int i = 0; i < chapterCount; i++) {
-            mm = Chapter.get(i);
-            nowID = (Integer) mm.get("id");
-            nowTitle = (String) mm.get("name");
-            nowLevel = (Integer) mm.get("level");
+            HashMap<String, Object> mm = Chapter.get(i);
+            int nowID = (Integer) mm.get("id");
+            String nowTitle = (String) mm.get("name");
+            int nowLevel = (Integer) mm.get("level");
 
             ++DisOrder;
-            if (i == lastIDX) { // 最后一个
-                nextLevel = 1;
-            } else {
-                nextLevel = (Integer) Chapter.get(1 + i).get("level");
-            }
+            int nextLevel = (i == lastIDX) ? 1 : (Integer) Chapter.get(i + 1).get("level");
 
             if (nowLevel < nextLevel) {
                 NCXList.append("\t<navPoint id=\"").append(nowID)
@@ -197,14 +262,13 @@ public class FoxEpubWriter {
                         .append("\"><navLabel><text>").append(nowTitle)
                         .append("</text></navLabel><content src=\"html/").append(nowID)
                         .append(".html\" /></navPoint>\n");
-            } else if (nowLevel > nextLevel) {
+            } else { // nowLevel > nextLevel
                 NCXList.append("\t\t<navPoint id=\"").append(nowID)
                         .append("\" playOrder=\"").append(DisOrder)
                         .append("\"><navLabel><text>").append(nowTitle)
                         .append("</text></navLabel><content src=\"html/").append(nowID)
                         .append(".html\" /></navPoint>\n\t</navPoint>\n");
             }
-
         }
 
         StringBuffer XML = new StringBuffer(4096);
@@ -219,25 +283,36 @@ public class FoxEpubWriter {
         _SaveFile(XML.toString(), DefNameNoExt + ".ncx");
     }
 
-    private void _CreateOPF() { //生成OPF文件
+    private void _CreateOPF() {
         String AddXMetaData = "";
         StringBuffer NowHTMLMenifest = new StringBuffer(4096);
         StringBuffer NowHTMLSpine = new StringBuffer(4096);
 
-        HashMap<String, Object> mm;
-        int nowID = 0;
+        // 处理封面
+        String NowImgMenifest = "";
+        if (coverImageBytes != null) {
+            String coverExt = "jpg";
+            if ("image/png".equals(coverMimeType)) coverExt = "png";
+            else if ("image/gif".equals(coverMimeType)) coverExt = "gif";
+
+            NowImgMenifest = "\t<item id=\"cover-image\" media-type=\"" + coverMimeType + "\" href=\"cover." + coverExt + "\" />\n";
+            AddXMetaData += "\t<meta name=\"cover\" content=\"cover-image\"/>\n";
+
+            // 封面页面加入 manifest 和 spine
+            NowHTMLMenifest.insert(0, "\t<item id=\"cover\" media-type=\"application/xhtml+xml\" href=\"cover.html\" />\n");
+            NowHTMLSpine.insert(0, "\t<itemref idref=\"cover\" linear=\"no\"/>\n");
+        }
+
         Iterator<HashMap<String, Object>> itr = Chapter.iterator();
         while (itr.hasNext()) {
-            mm = itr.next();
-            nowID = (Integer) mm.get("id");
+            HashMap<String, Object> mm = itr.next();
+            int nowID = (Integer) mm.get("id");
             NowHTMLMenifest.append("\t<item id=\"page").append(nowID).append("\" media-type=\"application/xhtml+xml\" href=\"html/").append(nowID).append(".html\" />\n");
             NowHTMLSpine.append("\t<itemref idref=\"page").append(nowID).append("\" />\n");
         }
 
-        // 图片列表加载这里
-        String NowImgMenifest = "";
         if (!isEpub) {
-            AddXMetaData = "\t<x-metadata><output encoding=\"utf-8\"></output></x-metadata>\n";
+            AddXMetaData += "\t<x-metadata><output encoding=\"utf-8\"></output></x-metadata>\n";
         }
 
         StringBuffer XML = new StringBuffer(4096);
@@ -251,15 +326,17 @@ public class FoxEpubWriter {
                 .append(NowImgMenifest).append("\n</manifest>\n\n<spine toc=\"FoxNCX\">\n\t<itemref idref=\"FoxIDX\"/>\n\n\n")
                 .append(NowHTMLSpine).append("\n</spine>\n\n\n<guide>\n\t<reference type=\"text\" title=\"正文\" href=\"")
                 .append("html/").append(Chapter.get(0).get("id")).append(".html\"/>\n\t<reference type=\"toc\" title=\"目录\" href=\"")
-                .append(DefNameNoExt).append(".htm\"/>\n</guide>\n\n</package>\n\n");
+                .append(DefNameNoExt).append(".htm\"/>\n")
+                .append(coverImageBytes != null ? "\t<reference type=\"cover\" title=\"封面\" href=\"cover.html\"/>\n" : "")
+                .append("</guide>\n\n</package>\n\n");
         _SaveFile(XML.toString(), DefNameNoExt + ".opf");
     }
 
-    private void _CreateMiscFiles() { //生成 epub 必须文件 mimetype, container.xml
-        _SaveFile(CSS, DefNameNoExt + ".css"); // 生成 CSS 文件
+    private void _CreateMiscFiles() {
+        _SaveFile(CSS, DefNameNoExt + ".css");
 
         if (isEpub) {
-            zw.putBinFile("application/epub+zip".getBytes(), "mimetype", true); // epub规范，第一个文件必须为stored
+            zw.putBinFile("application/epub+zip".getBytes(), "mimetype", true);
         } else {
             ToolJava.writeText("application/epub+zip", TmpDir.getPath() + File.separator + "mimetype");
         }
@@ -271,8 +348,8 @@ public class FoxEpubWriter {
         _SaveFile(XML.toString(), "META-INF/container.xml");
     }
 
-    private void _CreateChapterHTML(String Title, String Content, int iPageID) { //生成章节页面
-        StringBuffer HTML = new StringBuffer(20480);  // <div class="mbppagebreak"></div>
+    private void _CreateChapterHTML(String Title, String Content, int iPageID) {
+        StringBuffer HTML = new StringBuffer(20480);
         HTML.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"zh-CN\">\n<head>\n\t<title>")
                 .append(Title)
                 .append("</title>\n\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n\t<link rel=\"stylesheet\" type=\"text/css\" href=\"../")
@@ -285,17 +362,13 @@ public class FoxEpubWriter {
         _SaveFile(HTML.toString(), "html/" + iPageID + ".html");
     }
 
-    private void _CreateIndexHTM() { //生成索引页
+    private void _CreateIndexHTM() {
         StringBuffer NowTOC = new StringBuffer(4096);
-
-        HashMap<String, Object> mm;
-        int nowID = 0;
-        String nowTitle = "";
         Iterator<HashMap<String, Object>> itr = Chapter.iterator();
         while (itr.hasNext()) {
-            mm = itr.next();
-            nowID = (Integer) mm.get("id");
-            nowTitle = (String) mm.get("name");
+            HashMap<String, Object> mm = itr.next();
+            int nowID = (Integer) mm.get("id");
+            String nowTitle = (String) mm.get("name");
             NowTOC.append("<div><a href=\"html/").append(nowID).append(".html\">").append(nowTitle).append("</a></div>\n");
         }
 
@@ -307,22 +380,10 @@ public class FoxEpubWriter {
     }
 
     private void _SaveFile(String content, String saveRelatePath) {
-        if (isEpub) { // epub
+        if (isEpub) {
             zw.putTextFile(content, saveRelatePath);
-        } else { // mobi
+        } else {
             ToolJava.writeText(content, new File(TmpDir, saveRelatePath).getPath());
         }
     }
-
-    public static void main(String[] args) {
-        FoxEpubWriter oEpub = new FoxEpubWriter(new File("/Users/jiangzilai/Documents/book/test.epub"), "金刚经");
-        oEpub.setBookName("金刚般若波罗蜜经");
-        oEpub.setBookCreator("鸠摩罗什 译");
-//		oEpub.setCSS("h2,h3,h4 { text-align: center; }\n");
-        oEpub.addChapter("第1章", "<p>    如是我闻:</p><p>    一时，佛在舍卫国祇树给孤独园，与大比丘众千二百五十人俱。</p>", -1);
-        oEpub.addChapter("真言", "<p>　　那谟婆伽跋帝　钵喇壤　波罗弭多曳　唵伊利底　伊室利　输卢驮　毗舍耶　毗舍耶　莎婆诃</p>", -1);
-        oEpub.saveAll();
-    }
-
 }
-

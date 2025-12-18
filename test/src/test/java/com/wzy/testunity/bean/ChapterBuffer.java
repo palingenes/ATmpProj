@@ -1,5 +1,7 @@
 package com.wzy.testunity.bean;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 /**
@@ -11,6 +13,7 @@ public class ChapterBuffer {
     public String name;//章节名字
     public List<String> content;//章节内容 按行分
 
+    @NonNull
     @Override
     public String toString() {
         return "bean.ChapterBuffer{" +
