@@ -1,6 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":testunity")
+include(":test")
 
 
 pluginManagement {

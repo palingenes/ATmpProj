@@ -125,9 +125,18 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.10.1")
     implementation("androidx.concurrent:concurrent-futures-ktx:1.2.0")
 
-    // https://mvnrepository.com/artifact/com.google.android.gms/play-services-games-v2
-    implementation("com.google.android.gms:play-services-games-v2:21.0.0")
 
-    implementation("com.google.android.gms:play-services-auth:21.4.0")
-//    implementation("com.google.android.gms:play-services-games:24.0.0")
+    val libsuVersion = "6.0.0"
+    // 为 shell 提供 API 的核心模块
+    implementation("com.github.topjohnwu.libsu:core:${libsuVersion}")
+    // 可选：支持创建并绑定到 root 服务
+    implementation("com.github.topjohnwu.libsu:service:${libsuVersion}")
+    // 可选：提供具有 root 权限的远程文件系统访问
+    implementation("com.github.topjohnwu.libsu:nio:${libsuVersion}")
+
+
+    implementation("com.squareup.okhttp3:okhttp:5.1.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.1.0")
+    implementation("com.squareup.okio:okio:3.15.0")
+    testImplementation("junit:junit:4.13.2")
 }

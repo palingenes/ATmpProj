@@ -2,6 +2,16 @@
 
 -------------------------------------------------------
 
+给短测2配置1个台北IP
+curl -X POST http://92.223.73.34:19888/api/v1/get -d 'server_ip=210.79.155.120&server_port=13953&country_code=TW&city_code=Taipei'
+
+清除短测2配置的IP
+curl -X POST http://92.223.73.34:19888/api/v1/set_route_local -d 'server_ip=210.79.155.120&server_port=13953'
+
+
+-------------------------------------------------------
+
+
 短期测试1（人工）google 账号
 khanhdoandutwe@gmail.com——jAHM0aGqhl——phamkhanhdoanhuong92472@hotmail.com
 
