@@ -16,15 +16,15 @@ import java.util.List;
  * Created By zia on 2018/10/5.
  * 测试可达到4.5m/s
  */
-public class Biquge extends FastDownloader {
+public class BiQuGe extends FastDownloader {
 
     private final static String root = "http://www.biquge.com.tw";
 
-    public Biquge(String bookName, String path) {
+    public BiQuGe(String bookName, String path) {
         super(bookName, getUrl(bookName), path);
     }
 
-    public Biquge(String bookName, String catalogUrl, String path) {
+    public BiQuGe(String bookName, String catalogUrl, String path) {
         super(bookName, catalogUrl, path);
     }
 

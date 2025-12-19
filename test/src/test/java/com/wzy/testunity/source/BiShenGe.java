@@ -14,9 +14,9 @@ import java.util.List;
  * Created By zia on 2018/10/5.
  * 测试约1.5m/s
  */
-public class Bishenge extends FastDownloader {
+public class BiShenGe extends FastDownloader {
 
-    public Bishenge(String bookName, String catalogUrl, String path) {
+    public BiShenGe(String bookName, String catalogUrl, String path) {
         super(bookName, catalogUrl, path);
     }
 

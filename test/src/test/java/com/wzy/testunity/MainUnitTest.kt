@@ -1,7 +1,7 @@
 package com.wzy.testunity
 
 import com.wzy.testunity.bean.ChapterBuffer
-import com.wzy.testunity.source.Bishenge
+import com.wzy.testunity.source.BiQuGe
 import com.wzy.testunity.tool.FoxEpubWriter
 import com.wzy.testunity.tool.NovelParser
 import org.junit.Test
@@ -72,7 +72,7 @@ class MainUnitTest {
         //存放目录，该目录是mac系统下的，windows需要自行更正“\\”
         val savePath = "C:\\Users\\wwzy\\Downloads\\logs"
 
-        Bishenge(bookName, "https://www.shushenge.com/413477/index.html", savePath).let {
+        BiQuGe(bookName, "https://www.shushenge.com/413477/index.html", savePath).let {
             //下载全部内容到一个txt文件里
             it.downloadTXT()
             println("下载完成")

@@ -1,5 +1,7 @@
 package com.wzy.testunity.bean;
 
+import androidx.annotation.NonNull;
+
 /**
  * 从目录页解析出来的章节名以及章节链接
  */
@@ -8,6 +10,7 @@ public class Chapter {
     public String href;
     public int num = -1;
 
+    @NonNull
     @Override
     public String toString() {
         return name + "  " + href;
