@@ -14,16 +14,21 @@ import java.util.List;
  * Created By zia on 2018/10/5.
  * 测试约1.5m/s
  */
-public class BiShenGe extends FastDownloader {
+public class ShuShenGe extends FastDownloader {
 
-    public BiShenGe(String bookName, String catalogUrl, String path) {
+    public ShuShenGe(String bookName, String catalogUrl, String path) {
         super(bookName, catalogUrl, path);
     }
 
     @Override
     public List<Chapter> getChapters(String catalogUrl) throws IOException {
         String catalogHTML = getHtml(catalogUrl);
-        String sub = RegexUtil.regexExcept("<div id=\"list\">", "</div>", catalogHTML).get(0);
+        List<String> stringList = RegexUtil.regexExcept("<div id=\"list\">", "</div>", catalogHTML);
+        if (stringList.isEmpty()) {
+            System.err.println("stringList为空");
+            return null;
+        }
+        String sub = stringList.get(0);
         String[] split = sub.split("正文</dt>");
         if (split.length <= 1) return null;
         String ssub = split[1];

@@ -23,9 +23,9 @@ class Downloader {
     private final Object bufferLock = new Object();
     private final Object queueLock = new Object();
 
-    private String url;
-    private CustomRegex regex;
-    private ExecutorService threadPool;
+    private final String url;
+    private final CustomRegex regex;
+    private final ExecutorService threadPool;
 
     Downloader(String url, CustomRegex customRegex, int threadCount) {
         this.url = url;
@@ -38,7 +38,11 @@ class Downloader {
 
         //从目录页获取有序章节
         List<Chapter> chapters = regex.getChapters(url);
-
+        if (chapters == null) {
+            System.err.println("目录为空");
+            System.exit(0);
+            return null;
+        }
         int size = chapters.size();
 
         if (size == 0) {

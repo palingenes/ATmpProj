@@ -66,25 +66,21 @@ public abstract class FastDownloader implements CustomRegex {
     }
 
     public void downloadEPUB() throws IOException, InterruptedException {
-        saveKindle(false);
+        saveKindle();
     }
 
-    public void downloadMOBI() throws IOException, InterruptedException {
+    public void downloadMOBI() {
 //        saveKindle(true);
         System.out.println("自行下载kindlegen软件吧...不同平台不好适配。epub转mobi，效果很好...");
         System.exit(0);
     }
 
-    private void saveKindle(boolean isMOBI) throws IOException, InterruptedException {
+    private void saveKindle() throws IOException, InterruptedException {
         String name;
-        if (isMOBI) {
-            name = bookName + ".mobi";
-        } else {
-            name = bookName + ".epub";
-        }
+        name = bookName + ".epub";
         String filePath = path + File.separator + name;
         FoxEpubWriter foxEpubWriter = new FoxEpubWriter(new File(filePath), name);
-        foxEpubWriter.setEpub(!isMOBI);
+        foxEpubWriter.setEpub(true);
 
         Downloader downloader = new Downloader(catalogUrl, this, threadCount);
         List<ChapterBuffer> books = downloader.download();
@@ -106,11 +102,7 @@ public abstract class FastDownloader implements CustomRegex {
 
     //使用okHttp3的网络请求封装，默认使用
     protected String getHtml(String html) throws IOException {
-        return NetUtil.getHtml(html);
-    }
-
-    protected String getHtml(String html, String encodeType) throws IOException {
-        return NetUtil.getHtml(html, encodeType);
+        return NetUtil.getHtml(html, "UTF-8");
     }
 
     /**

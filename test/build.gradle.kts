@@ -1,3 +1,4 @@
+import org.gradle.internal.classpath.Instrumented.systemProperty
 import java.io.FileInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -95,6 +96,7 @@ tasks.withType(type = org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
+    systemProperty("playwright.cli.dir", layout.buildDirectory.dir("playwright-cli").get().asFile.absolutePath)
 }
 
 
@@ -139,4 +141,6 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.1.0")
     implementation("com.squareup.okio:okio:3.15.0")
     testImplementation("junit:junit:4.13.2")
+
+    implementation("com.microsoft.playwright:playwright:1.49.0")
 }
