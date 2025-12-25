@@ -54,9 +54,11 @@ class MainUnitTest {
         val coverPath = "C:\\Users\\wwzy\\Downloads\\cover.jpg"
         foxEpubWriter.setCoverImage(File(coverPath))
 
-        val books = NovelParser.parseNovel("C:\\Users\\wwzy\\Downloads\\黄泉逆行.txt")
-
+        val books =
+            NovelParser.parseNovel("D:\\workspace\\ATmpProj\\test\\src\\test\\java\\com\\wzy\\testunity\\黄泉逆行_全本.txt")
+        println("共${books.size}章需转换")
         books.forEach(Consumer { chapterBuffer: ChapterBuffer? ->
+            println("name===>${chapterBuffer?.name}")
             val content = StringBuilder()
             for (line in chapterBuffer!!.content) {
                 content.append("<p>")

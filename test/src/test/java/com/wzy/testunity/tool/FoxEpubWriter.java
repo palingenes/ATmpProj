@@ -1,5 +1,7 @@
 package com.wzy.testunity.tool;
 
+import androidx.annotation.NonNull;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -73,7 +75,7 @@ public class FoxEpubWriter {
     private final String DefNameNoExt = "FoxMake"; //默认文件名
     private final String BookUUID = UUID.randomUUID().toString();
 
-    ArrayList<HashMap<String, Object>> Chapter = new ArrayList<HashMap<String, Object>>(200); //章节结构:1:ID 2:Title 3:Level
+    ArrayList<HashMap<String, Object>> Chapter = new ArrayList<>(200); //章节结构:1:ID 2:Title 3:Level
     int ChapterID = 100; //章节ID
 
     // ====== 新增：封面支持 ======
@@ -225,7 +227,7 @@ public class FoxEpubWriter {
                 iput.close();
                 cmd.waitFor();
             } catch (Exception e) {
-                System.err.println(e.toString());
+                System.err.println(e);
             }
             File tmpF = new File(TmpDir, DefNameNoExt + ".mobi");
             if (tmpF.exists() && tmpF.length() > 555) {
@@ -356,7 +358,7 @@ public class FoxEpubWriter {
                 .append(DefNameNoExt)
                 .append(".css\" />\n</head>\n<body>\n<h2><span style=\"border-bottom:1px solid\">")
                 .append(Title)
-                .append("</span></h2>\n<div>\n\n\n")
+                .append("</span></h2>\n<br/>\n<div>\n\n\n")
                 .append(Content)
                 .append("\n\n\n</div>\n</body>\n</html>\n");
         _SaveFile(HTML.toString(), "html/" + iPageID + ".html");
@@ -372,11 +374,17 @@ public class FoxEpubWriter {
             NowTOC.append("<div><a href=\"html/").append(nowID).append(".html\">").append(nowTitle).append("</a></div>\n");
         }
 
+        StringBuffer XML = getStringBuffer(NowTOC);
+        _SaveFile(XML.toString(), DefNameNoExt + ".htm");
+    }
+
+    @NonNull
+    private StringBuffer getStringBuffer(StringBuffer NowTOC) {
         StringBuffer XML = new StringBuffer(4096);
         XML.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"zh-CN\">\n<head>\n\t<title>")
                 .append(BookName).append("</title>\n\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n\t<link rel=\"stylesheet\" type=\"text/css\" href=\"").append(DefNameNoExt).append(".css\" />\n</head>\n<body>\n<h2>")
                 .append(BookName).append("</h2>\n<div>\n\n").append(NowTOC).append("\n\n</div>\n</body>\n</html>\n");
-        _SaveFile(XML.toString(), DefNameNoExt + ".htm");
+        return XML;
     }
 
     private void _SaveFile(String content, String saveRelatePath) {
