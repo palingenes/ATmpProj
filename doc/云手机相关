@@ -2,6 +2,12 @@
 
 -------------------------------------------------------
 
+点run按钮或者adb install断联/失败的，可以使用SSH 隧道，输完密码后命令窗口最小化就行：
+ssh -L 6000:98.98.125.9:20732 root@45.32.249.231 -N -o ServerAliveInterval=30
+adb connect localhost:6000
+
+-------------------------------------------------------
+
 给短测2配置1个台北IP
 curl -X POST http://92.223.73.34:19888/api/v1/get -d 'server_ip=210.79.155.120&server_port=13953&country_code=TW&city_code=Taipei'
 
