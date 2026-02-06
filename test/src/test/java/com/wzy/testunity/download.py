@@ -4,9 +4,9 @@ from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 
 BASE_URL = "https://www.shushenge.com"
-NOVEL_ID = "413477"
+NOVEL_ID = "66053"
 INDEX_URL = f"{BASE_URL}/{NOVEL_ID}/index.html"
-OUTPUT_FILE = "黄泉逆行_全本.txt"
+OUTPUT_FILE = "神墓.txt"
 
 async def main():
     async with async_playwright() as p:

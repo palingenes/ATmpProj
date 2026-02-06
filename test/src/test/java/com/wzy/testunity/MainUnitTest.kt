@@ -9,7 +9,6 @@ import com.wzy.testunity.tool.FoxEpubWriter
 import com.wzy.testunity.tool.NovelParser
 import org.junit.Test
 import java.io.File
-import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.function.Consumer
@@ -23,39 +22,19 @@ import kotlin.math.min
  */
 class MainUnitTest {
 
-    @Test
-    fun test111() {
-        try {
-            val chapters = NovelParser.parseNovel("C:\\Users\\wwzy\\Downloads\\黄泉逆行.txt")
-            println("共解析 " + chapters.size + " 章节")
-
-            // 打印前两章信息
-            for (i in 0..<min(2, chapters.size)) {
-                val ch = chapters.get(i)
-                println("章节 " + ch.number + ": " + ch.name)
-                println("内容行数: " + ch.content.size)
-                if (!ch.content.isEmpty()) {
-                    println("首行: " + ch.content.get(0))
-                }
-                println("---")
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
 
     @Test
-    fun epub() {
-        val name = "黄泉逆行.epub"
+    fun txt2epub() {
+        val name = "无限进化.epub"
         val filePath = "C:\\Users\\wwzy\\Downloads\\$name"
         val foxEpubWriter = FoxEpubWriter(File(filePath), name)
         foxEpubWriter.setEpub(true)
-        foxEpubWriter.setBookCreator("踏浪寻舟")
+        foxEpubWriter.setBookCreator("不冷")
         val coverPath = "C:\\Users\\wwzy\\Downloads\\cover.jpg"
         foxEpubWriter.setCoverImage(File(coverPath))
 
         val books =
-            NovelParser.parseNovel("D:\\workspace\\ATmpProj\\test\\src\\test\\java\\com\\wzy\\testunity\\黄泉逆行_全本.txt")
+            NovelParser.parseNovel("D:\\workspace\\ATmpProj\\test\\src\\test\\java\\com\\wzy\\testunity\\无限进化.txt")
         println("共${books.size}章需转换")
         books.forEach(Consumer { chapterBuffer: ChapterBuffer? ->
             println("name===>${chapterBuffer?.name}")
