@@ -12,9 +12,7 @@ buildscript {
         maven("https://plugins.gradle.org/m2/")
     }
     dependencies {
-        classpath("io.objectbox:objectbox-gradle-plugin:5.0.1")
-//        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.3")
-//        classpath("com.applovin.quality:AppLovinQualityServiceGradlePlugin:5.7.3")
+        classpath("io.objectbox:objectbox-gradle-plugin:5.3.0")
     }
 }
 

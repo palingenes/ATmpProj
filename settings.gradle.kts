@@ -1,11 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":reader")
-
-
-include(":test")
-
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -28,6 +22,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "ATmpProj"
 
-include(":app")
-include(":autogame")
-//include(":keyshot")
+include(":app") //  啥用没有
+include(":autogame")    // 类似AutoApp，之前发布游戏任务手动调用使用，现疑似废弃
+include(":webview") //  一个webview测试js的小工具，没啥用

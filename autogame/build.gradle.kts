@@ -1,7 +1,7 @@
-import java.io.FileInputStream
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -14,11 +14,6 @@ fun releaseTime(): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     return current.format(formatter)
 }
-
-val keystorePropertiesFile = rootProject.file("keystore.properties")
-val keystoreProperties = Properties()
-keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-
 
 android {
     namespace = "com.cymf.autogame"
@@ -41,10 +36,10 @@ android {
     }
     signingConfigs {
         create("config") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = file(keystoreProperties["storeFile"] as String)
-            storePassword = keystoreProperties["storePassword"] as String
+            storeFile = File("../jks/tmp.jks")
+            keyAlias = "key0"
+            keyPassword = "tmp112233"
+            storePassword = "tmp112233"
 
             enableV1Signing = true
             enableV2Signing = true
@@ -86,14 +81,19 @@ android {
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        freeCompilerArgs.addAll("-Xinline-classes", "-Xallow-result-return-type", "-Xjsr305=strict","-Xannotation-default-target=param-property")
+        jvmTarget.set(JvmTarget.JVM_17)
+        freeCompilerArgs.addAll(
+            "-Xinline-classes",
+            "-Xallow-result-return-type",
+            "-Xjsr305=strict",
+            "-Xannotation-default-target=param-property"
+        )
     }
 }
 
-tasks.withType(type = org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask::class) {
+tasks.withType(type = KaptGenerateStubsTask::class) {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 

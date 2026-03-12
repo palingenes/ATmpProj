@@ -3,16 +3,16 @@
 -------------------------------------------------------
 
 点run按钮或者adb install断联/失败的，可以使用SSH 隧道，输完密码后命令窗口最小化就行：
-ssh -L 6000:98.98.125.9:25683 root@45.32.249.231 -N -o ServerAliveInterval=30
+ssh -L 6000:98.98.125.9:27369 root@45.32.249.231 -N -o ServerAliveInterval=30
 adb connect localhost:6000
 
 -------------------------------------------------------
 
 给短测2配置1个台北IP
-curl -X POST http://92.223.73.34:19888/api/v1/get -d 'server_ip=107.149.223.120&server_port=13953&country_code=TW&city_code=Taipei'
+curl -X POST http://92.223.73.34:19888/api/v1/get -d 'server_ip=107.149.223.120&server_port=13998&country_code=TW&city_code=Taipei'
 
 清除短测2配置的IP
-curl -X POST http://92.223.73.34:19888/api/v1/set_route_local -d 'server_ip=107.149.223.120&server_port=13953'
+curl -X POST http://92.223.73.34:19888/api/v1/set_route_local -d 'server_ip=107.149.223.120&server_port=13998'
 
 
 -------------------------------------------------------
