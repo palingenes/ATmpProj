@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>页面加载失败</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            font-family: "Segoe UI", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 400px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .btn-refresh {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-refresh:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 id="error-title">页面加载失败</h1>
+        <p id="error-message">无法加载当前页面，请检查您的网络连接后重试。</p>
+        <button class="btn-refresh" onclick="retry()">重试</button>
+    </div>
+
+    <script>
+        // 默认错误信息
+        let errorMessage = {
+            title: '页面加载失败',
+            message: '无法加载当前页面，请检查您的网络连接后重试。'
+        };
+
+        // 如果 URL 中带有参数，则解析并更新提示内容
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('title') && urlParams.has('message')) {
+            errorMessage.title = decodeURIComponent(urlParams.get('title'));
+            errorMessage.message = decodeURIComponent(urlParams.get('message'));
+
+            document.getElementById('error-title').innerText = errorMessage.title;
+            document.getElementById('error-message').innerText = errorMessage.message;
+        }
+
+        // 调用 Android 原生方法
+        function retry() {
+            NativeBridge.onRetry();
+        }
+    </script>
+
+</body>
+
+</html>

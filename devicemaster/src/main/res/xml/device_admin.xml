@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device-admin>
+    <uses-policies>
+        <limit-password /><!-- 限制用户可以设置的密码类型（例如，简单密码、复杂密码）-->
+        <watch-login /><!-- 监控用户的登录尝试，可用于安全监控。-->
+        <reset-password /><!-- 允许应用重置设备的锁屏密码 -->
+        <force-lock /><!-- 应用可以命令设备立即锁定 -->
+        <wipe-data /><!-- 应用可以命令设备执行工厂重置，清除所有用户数据 -->
+
+        <!--<expire-password/>--><!-- 设置密码的有效期限，到期后需要用户更换密码 -->
+    </uses-policies>
+</device-admin>

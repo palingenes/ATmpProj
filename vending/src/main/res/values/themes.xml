@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!--设置波纹颜色-->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:fastScrollTrackDrawable">@null</item>
+    </style>
+
+    <style name="SplashTheme" parent="BaseTheme.Light">
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+</resources>

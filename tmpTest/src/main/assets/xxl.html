@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消消乐小游戏</title>
+    <!-- Tailwind CSS CDN -->
+   
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+     <!-- 引入 FingerprintJS 库 -->
+     <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
+     <!-- 引入 ClientJS 库 -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.2.0/client.min.js"></script>
+   
+    <style>
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* 浅灰色背景 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* 防止滚动条 */
+        }
+        canvas {
+            background-color: #ffffff;
+            border-radius: 1rem; /* 画布圆角 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* 柔和阴影 */
+            display: block;
+            touch-action: none; /* 防止默认触摸行为，如滚动 */
+        }
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background-color: #e2e8f0; /* 容器稍深背景 */
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 400px; /* 与画布宽度匹配 */
+            padding: 0 1rem;
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.5rem;
+            z-index: 1000;
+            display: none; /* 默认隐藏 */
+        }
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+        .game-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .game-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .game-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">消消乐</h1>
+        <div class="game-info w-full max-w-sm md:max-w-md lg:max-w-lg">
+            <div class="text-xl font-semibold text-gray-700">分数: <span id="score">0</span></div>
+            <div class="text-xl font-semibold text-gray-700">时间: <span id="timer">00:00</span></div>
+        </div>
+        <canvas id="gameCanvas" class="w-full max-w-sm md:max-w-md lg:max-w-lg aspect-square"></canvas>
+        <div class="button-group">
+            <button id="startButton" class="game-button bg-green-500 text-white hover:bg-green-600">开始游戏</button>
+            <button id="resetButton" class="game-button bg-red-500 text-white hover:bg-red-600">重置游戏</button>
+        </div>
+    </div>
+
+    <div id="messageBox" class="message-box"></div>
+    <div id="fingerprint-result" style="display:none;"></div>
+    <div id="clientjs-result" style="display:none;"></div>
+
+    <script>
+
+        // 使用 FingerprintJS 生成指纹
+        FingerprintJS.load()
+            .then(fp => fp.get())
+            .then(result => {
+                document.getElementById('fingerprint-result').innerHTML = 
+                    `<h3>FingerprintJS 结果：</h3>
+                    <p>Visitor ID: ${result.visitorId}</p>`;
+            });
+
+        // 使用 ClientJS 生成指纹
+        const client = new ClientJS();
+        const fingerprint = client.getFingerprint();
+        document.getElementById('clientjs-result').innerHTML = 
+            `<h3>ClientJS 结果：</h3>
+            <p>Fingerprint: ${fingerprint}</p>
+            <p>User Agent: ${client.getUserAgent()}</p>
+            <p>OS: ${client.getOS()}</p>
+            <p>Browser: ${client.getBrowser()}</p>`;
+    </script>
+    <script type="module">
+        // 全局变量，用于 Firebase 相关的配置和用户 ID
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        // 修正了 initialAuthToken 的赋值，确保引用 __initial_auth_token
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+     
+
+        // Firebase 应用和服务实例
+        let app, db, auth;
+        let userId = 'anonymous'; // 默认匿名用户 ID
+
+        // 游戏设定
+        const TILE_SIZE = 60; // 每个方块的尺寸（像素）
+        const NUM_ROWS = 8; // 游戏板的行数
+        const NUM_COLS = 8; // 游戏板的列数
+        const TILE_TYPES = [ // 方块的颜色（可以替换为图片路径）
+            '#FF6347', // 番茄红
+            '#FFD700', // 金色
+            '#6A5ACD', // 石板蓝
+            '#3CB371', // 中海绿
+            '#BA55D3', // 中兰花紫
+            '#4682B4'  // 钢蓝
+        ];
+        const MATCH_MIN = 3; // 最少匹配数
+
+        // 游戏状态变量
+        let canvas, ctx;
+        let board = [];
+        let selectedTile = null; // 存储选中的方块 {row, col}
+        let score = 0;
+        let gameActive = false;
+        let timerInterval;
+        let timeElapsed = 0;
+        let animationFrameId;
+        let isProcessingMatches = false; // 防止在处理匹配时重复触发
+        let showMessageBoxTimeout;
+
+        // UI 元素
+        const scoreDisplay = document.getElementById('score');
+        const timerDisplay = document.getElementById('timer');
+        const startButton = document.getElementById('startButton');
+        const resetButton = document.getElementById('resetButton');
+        const messageBox = document.getElementById('messageBox');
+
+       
+        async function initializeFirebase() {
+            if (firebaseConfig) {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // 监听认证状态变化
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        console.log("Firebase initialized and user signed in:", userId);
+                        // 您可以在这里加载用户的游戏数据等
+                    } else {
+                        // 如果没有用户，则匿名登录
+                        try {
+                            await signInAnonymously(auth);
+                            userId = auth.currentUser?.uid || crypto.randomUUID(); // Fallback if anonymous fails
+                            console.log("Signed in anonymously:", userId);
+                        } catch (error) {
+                            console.error("Error signing in anonymously:", error);
+                            userId = crypto.randomUUID(); // Generate a random ID if Firebase auth fails
+                        }
+                    }
+                    // 在 Firebase 初始化并认证后才设置事件监听器和开始游戏
+                    initGame(); // 确保 canvas 在这里被初始化
+                    setupEventListeners(); // 在 canvas 初始化后设置事件监听器
+                });
+
+                // 如果有初始认证令牌，则尝试使用它登录
+                if (initialAuthToken) {
+                    try {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        console.log("Signed in with custom token.");
+                    } catch (error) {
+                        console.error("Error signing in with custom token:", error);
+                        // 如果令牌无效，则会触发 onAuthStateChanged 匿名登录
+                    }
+                } else {
+                    // 如果没有令牌，也触发 onAuthStateChanged 进行匿名登录
+                    await signInAnonymously(auth);
+                }
+            } else {
+                console.warn("Firebase config not found. Running without Firebase features.");
+                userId = crypto.randomUUID(); // 生成一个随机 ID
+                initGame(); // 确保 canvas 在这里被初始化
+                setupEventListeners(); // 在 canvas 初始化后设置事件监听器
+            }
+        }
+
+        // 显示消息框
+        function showMessage(message, duration = 2000) {
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            clearTimeout(showMessageBoxTimeout); // 清除之前的定时器
+            showMessageBoxTimeout = setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, duration);
+        }
+
+        // 创建游戏板
+        function createBoard() {
+            board = Array(NUM_ROWS).fill(null).map(() => Array(NUM_COLS).fill(null));
+            for (let r = 0; r < NUM_ROWS; r++) {
+                for (let c = 0; c < NUM_COLS; c++) {
+                    let tileType;
+                    do {
+                        tileType = Math.floor(Math.random() * TILE_TYPES.length);
+                    } while (
+                        (c >= MATCH_MIN - 1 && board[r][c - 1]?.type === tileType && board[r][c - 2]?.type === tileType) || // 检查水平匹配
+                        (r >= MATCH_MIN - 1 && board[r - 1][c]?.type === tileType && board[r - 2][c]?.type === tileType)    // 检查垂直匹配
+                    );
+                    board[r][c] = { type: tileType, x: c * TILE_SIZE, y: r * TILE_SIZE, targetY: r * TILE_SIZE };
+                }
+            }
+        }
+
+        // 绘制游戏板
+        function drawBoard() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let r = 0; r < NUM_ROWS; r++) {
+                for (let c = 0; c < NUM_COLS; c++) {
+                    const tile = board[r][c];
+                    if (tile) {
+                        ctx.beginPath();
+                        ctx.arc(tile.x + TILE_SIZE / 2, tile.y + TILE_SIZE / 2, TILE_SIZE / 2 - 5, 0, Math.PI * 2);
+                        ctx.fillStyle = TILE_TYPES[tile.type];
+                        ctx.fill();
+                        ctx.strokeStyle = selectedTile && selectedTile.row === r && selectedTile.col === c ? '#FFF' : '#333';
+                        ctx.lineWidth = selectedTile && selectedTile.row === r && selectedTile.col === c ? 5 : 2;
+                        ctx.stroke();
+                        ctx.closePath();
+                    }
+                }
+            }
+        }
+
+        // 查找匹配
+        function findMatches() {
+            const matches = [];
+            // 检查水平匹配
+            for (let r = 0; r < NUM_ROWS; r++) {
+                for (let c = 0; c < NUM_COLS - (MATCH_MIN - 1); c++) {
+                    const type = board[r][c]?.type;
+                    if (type !== undefined) {
+                        let count = 1;
+                        for (let k = 1; k < NUM_COLS - c; k++) {
+                            if (board[r][c + k]?.type === type) {
+                                count++;
+                            } else {
+                                break;
+                            }
+                        }
+                        if (count >= MATCH_MIN) {
+                            for (let k = 0; k < count; k++) {
+                                matches.push({ row: r, col: c + k });
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 检查垂直匹配
+            for (let c = 0; c < NUM_COLS; c++) {
+                for (let r = 0; r < NUM_ROWS - (MATCH_MIN - 1); r++) {
+                    const type = board[r][c]?.type;
+                    if (type !== undefined) {
+                        let count = 1;
+                        for (let k = 1; k < NUM_ROWS - r; k++) {
+                            if (board[r + k][c]?.type === type) {
+                                count++;
+                            } else {
+                                break;
+                            }
+                        }
+                        if (count >= MATCH_MIN) {
+                            for (let k = 0; k < count; k++) {
+                                matches.push({ row: r + k, col: c });
+                            }
+                        }
+                    }
+                }
+            }
+            // 移除重复的匹配
+            const uniqueMatches = [];
+            const matchSet = new Set();
+            matches.forEach(m => {
+                const key = `${m.row},${m.col}`;
+                if (!matchSet.has(key)) {
+                    uniqueMatches.push(m);
+                    matchSet.add(key);
+                }
+            });
+            return uniqueMatches;
+        }
+
+        // 移除匹配的方块
+        function removeMatches(matches) {
+            if (matches.length === 0) return;
+
+            // 更新分数
+            score += matches.length * 10;
+            scoreDisplay.textContent = score;
+
+            // 将匹配的方块设置为 null
+            matches.forEach(match => {
+                board[match.row][match.col] = null;
+            });
+        }
+
+        // 方块下落
+        function dropTiles() {
+            let tilesMoved = false;
+            for (let c = 0; c < NUM_COLS; c++) {
+                let emptyRow = NUM_ROWS - 1;
+                for (let r = NUM_ROWS - 1; r >= 0; r--) {
+                    if (board[r][c] !== null) {
+                        if (r !== emptyRow) {
+                            board[emptyRow][c] = board[r][c];
+                            board[emptyRow][c].targetY = emptyRow * TILE_SIZE; // 设置目标 Y 坐标
+                            board[r][c] = null;
+                            tilesMoved = true;
+                        }
+                        emptyRow--;
+                    }
+                }
+            }
+            return tilesMoved;
+        }
+
+        // 填充空位
+        function fillEmptySpaces() {
+            let tilesFilled = false;
+            for (let r = 0; r < NUM_ROWS; r++) {
+                for (let c = 0; c < NUM_COLS; c++) {
+                    if (board[r][c] === null) {
+                        const tileType = Math.floor(Math.random() * TILE_TYPES.length);
+                        board[r][c] = { type: tileType, x: c * TILE_SIZE, y: -TILE_SIZE, targetY: r * TILE_SIZE }; // 从上方掉落
+                        tilesFilled = true;
+                    }
+                }
+            }
+            return tilesFilled;
+        }
+
+        // 检查并处理匹配的流程
+        async function checkAndProcessMatches() {
+            if (isProcessingMatches) return; // 如果正在处理，则退出
+
+            isProcessingMatches = true;
+            let matchesFound = true;
+            while (matchesFound) {
+                const matches = findMatches();
+                if (matches.length > 0) {
+                    removeMatches(matches);
+                    drawBoard(); // 绘制消除后的状态
+                    await new Promise(resolve => setTimeout(resolve, 300)); // 暂停一下显示消除
+
+                    dropTiles();
+                    fillEmptySpaces();
+                    // 等待方块下落动画完成
+                    await new Promise(resolve => {
+                        let animationComplete = false;
+                        const checkAnimation = () => {
+                            animationComplete = true;
+                            for (let r = 0; r < NUM_ROWS; r++) {
+                                for (let c = 0; c < NUM_COLS; c++) {
+                                    const tile = board[r][c];
+                                    if (tile && Math.abs(tile.y - tile.targetY) > 1) { // 检查是否接近目标位置
+                                        animationComplete = false;
+                                        break;
+                                    }
+                                }
+                                if (!animationComplete) break;
+                            }
+                            if (animationComplete) {
+                                resolve();
+                            } else {
+                                requestAnimationFrame(checkAnimation);
+                            }
+                        };
+                        requestAnimationFrame(checkAnimation);
+                    });
+                    drawBoard(); // 绘制下落后的状态
+                    await new Promise(resolve => setTimeout(resolve, 200)); // 暂停一下显示下落
+                } else {
+                    matchesFound = false;
+                }
+            }
+            isProcessingMatches = false;
+        }
+
+
+        // 交换方块
+        function swapTiles(r1, c1, r2, c2) {
+            const temp = board[r1][c1];
+            board[r1][c1] = board[r2][c2];
+            board[r2][c2] = temp;
+
+            // 更新目标位置，用于动画
+            if (board[r1][c1]) board[r1][c1].targetY = r1 * TILE_SIZE;
+            if (board[r2][c2]) board[r2][c2].targetY = r2 * TILE_SIZE;
+
+            // 调整 x, y 坐标以进行动画（从当前位置到目标位置）
+            // 这里我们只更新目标Y，实际的x,y会在gameLoop中平滑过渡
+            // 为了避免瞬间跳跃，这里不直接设置x,y
+        }
+
+        // 处理点击事件
+        async function handleInput(event) {
+            if (!gameActive || isProcessingMatches) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+            const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+            const mouseX = (clientX - rect.left) * scaleX;
+            const mouseY = (clientY - rect.top) * scaleY;
+
+            const clickedCol = Math.floor(mouseX / TILE_SIZE);
+            const clickedRow = Math.floor(mouseY / TILE_SIZE);
+
+            if (clickedRow < 0 || clickedRow >= NUM_ROWS || clickedCol < 0 || clickedCol >= NUM_COLS) {
+                return; // 点击在游戏板外
+            }
+
+            if (selectedTile === null) {
+                // 选中第一个方块
+                selectedTile = { row: clickedRow, col: clickedCol };
+            } else {
+                // 尝试交换第二个方块
+                const r1 = selectedTile.row;
+                const c1 = selectedTile.col;
+                const r2 = clickedRow;
+                const c2 = clickedCol;
+
+                // 检查是否为相邻方块
+                const isAdjacent = (Math.abs(r1 - r2) === 1 && c1 === c2) || (Math.abs(c1 - c2) === 1 && r1 === r2);
+
+                if (isAdjacent) {
+                    // 执行交换操作
+                    swapTiles(r1, c1, r2, c2);
+                    drawBoard(); // 立即绘制交换后的状态
+
+                    // 检查交换后是否有匹配
+                    const matches = findMatches();
+                    if (matches.length > 0) {
+                        await checkAndProcessMatches(); // 处理匹配和连锁反应
+                    } else {
+                        // 如果没有匹配，则交换回去
+                        await new Promise(resolve => setTimeout(resolve, 200)); // 短暂延迟显示无匹配
+                        swapTiles(r1, c1, r2, c2); // 换回原位
+                    }
+                }
+                selectedTile = null; // 重置选中的方块
+            }
+            drawBoard(); // 重新绘制以更新选中状态
+        }
+
+        // 游戏主循环（动画）
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 清除上一帧
+            for (let r = 0; r < NUM_ROWS; r++) {
+                for (let c = 0; c < NUM_COLS; c++) {
+                    const tile = board[r][c];
+                    if (tile) {
+                        // 平滑移动方块到目标位置
+                        const speed = 0.2; // 移动速度
+                        tile.y += (tile.targetY - tile.y) * speed;
+                        tile.x += (c * TILE_SIZE - tile.x) * speed; // 确保 x 坐标也正确，用于横向移动
+
+                        // 绘制方块
+                        ctx.beginPath();
+                        ctx.arc(tile.x + TILE_SIZE / 2, tile.y + TILE_SIZE / 2, TILE_SIZE / 2 - 5, 0, Math.PI * 2);
+                        ctx.fillStyle = TILE_TYPES[tile.type];
+                        ctx.fill();
+                        ctx.strokeStyle = selectedTile && selectedTile.row === r && selectedTile.col === c ? '#FFF' : '#333';
+                        ctx.lineWidth = selectedTile && selectedTile.row === r && selectedTile.col === c ? 5 : 2;
+                        ctx.stroke();
+                        ctx.closePath();
+                    }
+                }
+            }
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+
+        // 初始化游戏
+        function initGame() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+
+            // 设置 canvas 尺寸以适应容器并保持比例
+            const containerWidth = canvas.parentElement.clientWidth;
+            const size = Math.min(containerWidth, window.innerHeight * 0.8); // 限制为视窗高度的 80%
+            canvas.width = NUM_COLS * TILE_SIZE;
+            canvas.height = NUM_ROWS * TILE_SIZE;
+
+            // 调整 canvas 的 CSS 宽高以适应响应式布局
+            canvas.style.width = `${size}px`;
+            canvas.style.height = `${size}px`;
+
+            createBoard();
+            drawBoard();
+            score = 0;
+            scoreDisplay.textContent = score;
+            timeElapsed = 0;
+            timerDisplay.textContent = '00:00';
+            selectedTile = null;
+            gameActive = false; // 游戏初始为非活动状态
+            showMessage("点击 '开始游戏' 开始", 3000); // 初始提示
+
+            // 确保动画循环在游戏启动后才开始
+            if (!animationFrameId) {
+                gameLoop();
+            }
+        }
+
+        // 开始游戏
+        function startGame() {
+            if (gameActive) return;
+            gameActive = true;
+            showMessage("游戏开始！", 2000);
+            // 重置游戏状态
+            createBoard();
+            score = 0;
+            scoreDisplay.textContent = score;
+            timeElapsed = 0;
+            updateTimer();
+            selectedTile = null;
+
+            // 启动计时器
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeElapsed++;
+                updateTimer();
+                // 可以添加时间限制，例如 2 分钟
+                // if (timeElapsed >= 120) {
+                //     endGame();
+                // }
+            }, 1000);
+
+            // 立即检查初始匹配并消除
+            checkAndProcessMatches();
+        }
+
+        // 重置游戏
+        function resetGame() {
+            clearInterval(timerInterval);
+            cancelAnimationFrame(animationFrameId); // 停止动画循环
+            animationFrameId = null; // 重置动画帧 ID
+            gameActive = false;
+            initGame(); // 重新初始化游戏
+            showMessage("游戏已重置", 2000);
+        }
+
+        // 更新计时器显示
+        function updateTimer() {
+            const minutes = Math.floor(timeElapsed / 60);
+            const seconds = timeElapsed % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // 设置事件监听器
+        function setupEventListeners() {
+            canvas.addEventListener('mousedown', handleInput);
+            canvas.addEventListener('touchstart', handleInput, { passive: false }); // for mobile touch
+
+            startButton.addEventListener('click', startGame);
+            resetButton.addEventListener('click', resetGame);
+
+            window.addEventListener('resize', () => {
+                // 重新调整 canvas 大小
+                const containerWidth = canvas.parentElement.clientWidth;
+                const size = Math.min(containerWidth, window.innerHeight * 0.8);
+                canvas.style.width = `${size}px`;
+                canvas.style.height = `${size}px`;
+                drawBoard(); // 重新绘制以适应新尺寸
+            });
+        }
+
+        // 页面加载完成后初始化 Firebase 和游戏
+        window.onload = initializeFirebase;
+
+    </script>
+</body>
+</html>

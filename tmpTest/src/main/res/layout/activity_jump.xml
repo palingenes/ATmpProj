@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="Intent 跳转测试面板"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <!-- 按钮列表 -->
+        <Button
+            android:id="@+id/btnExplicit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="1. 显式跳转到指定 Activity"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnDeepLinkScheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="2. DeepLink (URL Scheme)"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnDeepLinkHttp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="3. App Link (HTTPS)"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnViewWeb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="4. 打开网页 (浏览器)"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnAppStore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5. 跳转到应用商店（评分）"
+            android:layout_marginBottom="8dp"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="6. 打开地图 (geo:)"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnShare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="7. 分享文本 (ACTION_SEND)"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnChooser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="8. 弹出选择器 (Chooser)"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="9. 打开邮箱 (mailto:)"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="10. 打开系统设置"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnCamera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="11. 打开相机 (隐式)"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnNewTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="12. FLAG_ACTIVITY_NEW_TASK"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnClearTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="13. FLAG_ACTIVITY_CLEAR_TOP"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btnMultipleExtras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="14. 带多个 Extras 的跳转"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+</ScrollView>

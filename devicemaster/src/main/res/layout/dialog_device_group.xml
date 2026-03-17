@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_black_top"
+    android:orientation="vertical"
+    android:paddingBottom="50dp"
+    tools:layout_gravity="bottom">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="34dp"
+        android:text="分组信息"
+        android:textColor="@color/white"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/flex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:flexWrap="wrap">
+
+        <TextView
+            android:id="@+id/tv_yingjian"
+            style="@style/TextStyle"
+            android:text="硬件"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_net"
+            style="@style/TextStyle"
+            android:text="网络"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_wendu"
+            style="@style/TextStyle"
+            android:text="温度"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_dianchi"
+            style="@style/TextStyle"
+            android:text="电池"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_sys"
+            style="@style/TextStyle"
+            android:text="系统"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_build"
+            style="@style/TextStyle"
+            android:text="编译(Build)"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_fenqu"
+            style="@style/TextStyleNO"
+            android:text="分区"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_neicun"
+            style="@style/TextStyleNO"
+            android:text="内存"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_xiangji"
+            style="@style/TextStyle"
+            android:text="相机"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_app_list"
+            style="@style/TextStyleNO"
+            android:text="应用程序列表"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_bianyi"
+            style="@style/TextStyle"
+            android:text="编解码器"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_output"
+            style="@style/TextStyleNO"
+            android:text="输出"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_usb"
+            style="@style/TextStyle"
+            android:text="USB"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_xinpian"
+            style="@style/TextStyle"
+            android:text="芯片"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_moniqi"
+            style="@style/TextStyle"
+            android:text="模拟器"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_duokai"
+            style="@style/TextStyle"
+            android:text="多开"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_tiaoshi"
+            style="@style/TextStyle"
+            android:text="调试"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_root"
+            style="@style/TextStyle"
+            android:text="Root"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_hook"
+            style="@style/TextStyle"
+            android:text="hook"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_info"
+            style="@style/TextStyle"
+            android:text="设备信息"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_app"
+            style="@style/TextStyle"
+            android:text="应用信息"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_wifi"
+            style="@style/TextStyle"
+            android:text="WiFi"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_maps"
+            style="@style/TextStyleNO"
+            android:text="Maps"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_lanya"
+            style="@style/TextStyle"
+            android:text="蓝牙"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tv_others"
+            style="@style/TextStyle"
+            android:text="其他信息"
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+</LinearLayout>

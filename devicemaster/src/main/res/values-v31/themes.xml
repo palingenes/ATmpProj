@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="SplashTheme" parent="BaseTheme.Light">
+        <item name="android:windowBackground">@mipmap/img_splash</item>
+
+        <item name="android:windowSplashScreenAnimatedIcon">@color/transparent</item>
+        <item name="android:windowSplashScreenBackground">@color/transparent</item>
+        <item name="android:windowSplashScreenAnimationDuration">0</item>
+        <item name="android:windowSplashScreenBrandingImage">@color/transparent</item>
+    </style>
+</resources>
