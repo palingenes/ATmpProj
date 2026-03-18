@@ -28,7 +28,7 @@ rootProject.name = "ATmpProj"
 include(":app") //  啥用没有
 include(":autogame")    // 类似AutoApp，之前发布游戏任务手动调用使用，现疑似废弃
 include(":webview") //  一个webview测试js的小工具，没啥用
-include(":tmpTest") //  一些系统文件读取与shell
-include(":vending")
-include(":humanbehaviorcollector")
-include(":devicemaster")
+include(":tmpTest") //  一些系统文件读取与shell “临时测试”
+include(":vending") // 伪 google 商店
+include(":humanbehaviorcollector")  //  手势采集
+include(":devicemaster")    //  获取手机各种信息
